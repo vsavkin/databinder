@@ -1,0 +1,6 @@
+name:  databinder
+description:  DataBinder
+dependencies:
+  web_components: any
+  unittest:
+    sdk: unittest
