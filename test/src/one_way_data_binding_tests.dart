@@ -3,7 +3,6 @@ part of databinder_test;
 testOneWayDataBinding() {
   group("one-way data binding", () {
 
-//    if(false){
     test("no bindings", () {
       var person = new Person("Dolly");
       var element = bind("<div>Hello</div>", person);
@@ -16,7 +15,7 @@ testOneWayDataBinding() {
       expect(element.text, equals("Hello Dolly!"));
     });
 
-    test("it throws an exception when invalid attribute", () {
+    test("it throws an exception when invalid property", () {
       var person = new Person("Dolly");
       expect(
         () =>bind("<div>{{invalid}}</div>", person),
@@ -29,13 +28,13 @@ testOneWayDataBinding() {
       expect(element.text, equals("Dolly is 99"));
     });
 
-    test("multiple binding to the same attribute", () {
+    test("multiple binding to the same property", () {
       var person = new Person("Dolly");
       var element = bind("<div>{{name}} {{name}}</div>", person);
       expect(element.text, equals("Dolly Dolly"));
     });
 
-    test("update attribute multiple times", () {
+    test("update a bound property multiple times", () {
       var person = new Person("Dolly");
       var element = bind("<div>{{name}}</div>", person);
       person.name = "Sam";
@@ -58,6 +57,17 @@ testOneWayDataBinding() {
       var attr = element.attributes['greeting'];
 
       expect(attr, equals("Hi Dolly!"));
+    });
+
+    test("update a bound property (inside attribute) multiple times", () {
+      var person = new Person("Dolly");
+      var element = bind("<div greeting='Hi {{name}}!'></div>", person);
+      person.name = "Sam";
+      dispatch();
+
+      var attr = element.attributes['greeting'];
+
+      expect(attr, equals("Hi Sam!"));
     });
 
     test("bindings inside the root and child nodes", () {

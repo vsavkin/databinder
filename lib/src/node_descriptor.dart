@@ -6,6 +6,9 @@ class TextNodeDescriptor {
 
   TextNodeDescriptor(this.node, this.boundNames);
 
+  String get value => node.text;
+  set value(newValue) => node.text = newValue;
+
   void visit(visitor){
     visitor.visitText(this);
   }
@@ -17,6 +20,9 @@ class AttributeDescriptor {
   final List<String> boundNames;
 
   AttributeDescriptor(this.element, this.attrName, this.boundNames);
+
+  String get value => element.attributes[attrName];
+  set value(newValue) => element.attributes[attrName] = newValue;
 
   void visit(visitor){
     visitor.visitAttribute(this);

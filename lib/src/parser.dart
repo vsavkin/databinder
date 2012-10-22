@@ -1,7 +1,7 @@
 part of databinder;
 
 class Parser {
-  RegExp _regex = const RegExp(r'{{(\w*)}}');
+  final BinderConfiguration _config = new BinderConfiguration();
 
   ElementNodeDescriptor parse(Element e) {
     var res = _parseElement(e);
@@ -26,7 +26,7 @@ class Parser {
       _parseElement(node);
 
   _parseTextNode(textNode) {
-    var matches = _regex.allMatches(textNode.text);
+    var matches = _config.oneWayBindingRegex.allMatches(textNode.text);
     if (matches == null) return null;
 
     var attrNames = matches.map((Match m) => m.group(1));
@@ -42,7 +42,7 @@ class Parser {
   }
 
   _parseAttribute(element, attrName, attrValue){
-    var matches = _regex.allMatches(attrValue);
+    var matches = _config.oneWayBindingRegex.allMatches(attrValue);
     if (matches == null) return null;
 
     var attrNames = matches.map((Match m) => m.group(1));
