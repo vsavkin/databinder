@@ -1,44 +1,36 @@
 part of databinder;
 
-abstract class NodeDescriptor {
-  List<String> boundNames;
-  List<NodeDescriptor> children;
+class TextNodeDescriptor {
+  final Text node;
+  final List<String> boundNames;
 
-  NodeDescriptor(this.boundNames, this.children);
+  TextNodeDescriptor(this.node, this.boundNames);
 
-  void update(String boundName, newValue){
-  }
-
-  _applyNewValue(str, name, newValue) => str.replaceAll("{{${name}}}", newValue);
-}
-
-class TextNodeDescriptor extends NodeDescriptor{
-  Text node;
-
-  TextNodeDescriptor(this.node, boundNames): super(boundNames, []);
-
-  void update(String boundName, newValue){
-    var newText = _applyNewValue(node.text, boundName, newValue);
-    node.replaceWholeText(newText);
+  void visit(visitor){
+    visitor.visitText(this);
   }
 }
 
-class AttributeDescriptor extends NodeDescriptor {
+class AttributeDescriptor {
+  final Element element;
+  final String attrName;
+  final List<String> boundNames;
+
+  AttributeDescriptor(this.element, this.attrName, this.boundNames);
+
+  void visit(visitor){
+    visitor.visitAttribute(this);
+  }
+}
+
+class ElementNodeDescriptor {
   Element element;
-  String attrName;
+  final List children;
 
-  AttributeDescriptor(this.element, this.attrName, boundNames) : super(boundNames, []);
+  ElementNodeDescriptor(this.element, this.children);
+  ElementNodeDescriptor.empty(this.element) : children = [];
 
-  void update(String boundName, newValue){
-    var newText = _applyNewValue(element.attributes[attrName], boundName, newValue);
-    element.attributes[attrName] = newText;
+  void visit(visitor){
+    visitor.visitElement(this);
   }
-}
-
-class ElementNodeDescriptor extends NodeDescriptor {
-  Element element;
-
-  ElementNodeDescriptor(this.element, children) : super([], children);
-
-  ElementNodeDescriptor.empty(this.element) : super([], []);
 }

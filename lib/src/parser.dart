@@ -3,7 +3,7 @@ part of databinder;
 class Parser {
   RegExp _regex = const RegExp(r'{{(\w*)}}');
 
-  NodeDescriptor parse(Element e) {
+  ElementNodeDescriptor parse(Element e) {
     var res = _parseElement(e);
     return res != null ? res : new ElementNodeDescriptor.empty(e);
   }
@@ -15,17 +15,15 @@ class Parser {
   }
 
   _parseChildrenNodes(element) =>
-    element.nodes.map((_) => _parseNode(_)).filter((_) => _ != null);
+    element
+      .nodes
+      .map((_) => _parseNode(_))
+      .filter((_) => _ != null);
 
-  _parseAttributes(element){
-    var res = [];
-    element.attributes.forEach((k,v){
-      res.add(_parseAttribute(element, k, v));
-    });
-    return res.filter((_) => _ != null);
-  }
-
-  _parseNode(node) => (node is Text) ? _parseTextNode(node) : _parseElement(node);
+  _parseNode(node) =>
+    (node is Text) ?
+      _parseTextNode(node) :
+      _parseElement(node);
 
   _parseTextNode(textNode) {
     var matches = _regex.allMatches(textNode.text);
@@ -33,6 +31,14 @@ class Parser {
 
     var attrNames = matches.map((Match m) => m.group(1));
     return new TextNodeDescriptor(textNode, attrNames);
+  }
+
+  _parseAttributes(element){
+    var res = [];
+    element.attributes.forEach((k,v){
+      res.add(_parseAttribute(element, k, v));
+    });
+    return res.filter((_) => _ != null);
   }
 
   _parseAttribute(element, attrName, attrValue){

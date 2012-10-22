@@ -69,7 +69,7 @@ testOneWayDataBinding() {
       expect(element.text, equals("99 Dolly"));
     });
 
-    test("disposing all watchers", () {
+    test("unbinding", () {
       var element = new Element.html("<div>Hello {{name}}!</div>");
       var person = new Person("Dolly");
 
@@ -78,7 +78,7 @@ testOneWayDataBinding() {
 
       person.name = "Sam";
 
-      binder.disposeWatchers();
+      binder.unbind();
       dispatch();
 
       expect(element.text, equals("Hello Dolly!"));
