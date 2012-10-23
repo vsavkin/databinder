@@ -14,14 +14,14 @@ class Parser {
     return (!nodes.isEmpty()) ? new ElementNodeDescriptor(e, nodes) : null;
   }
 
-  _parseChildrenNodes(element) =>
-    element
+  _parseChildrenNodes(element)
+    => element
       .nodes
       .map((_) => _parseNode(_))
       .filter((_) => _ != null);
 
-  _parseNode(node) =>
-    (node is Text) ?
+  _parseNode(node)
+    => (node is Text) ?
       _parseTextNode(node) :
       _parseElement(node);
 
@@ -42,10 +42,21 @@ class Parser {
   }
 
   _parseAttribute(element, attrName, attrValue){
+    if(attrName == "data-bind"){
+      return _parseDataBinding(element, attrValue);
+    } else {
+      return _parseSimpleAttribute(element, attrName, attrValue);
+    }
+  }
+
+  _parseSimpleAttribute(element, attrName, attrValue) {
     var matches = _config.oneWayBindingRegex.allMatches(attrValue);
     if (matches == null) return null;
 
     var attrNames = matches.map((Match m) => m.group(1));
     return new AttributeDescriptor(element, attrName, attrNames);
   }
+
+  _parseDataBinding(element, attrValue)
+    => new DataBindingDescriptor(element, attrValue);
 }

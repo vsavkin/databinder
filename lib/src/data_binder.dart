@@ -5,20 +5,21 @@ class DataBinder {
 
   Element element;
   Object object;
-  List _watchers = [];
+  List binders = [];
 
   DataBinder(this.element, this.object);
 
   void bind() {
     var elementDescriptor = parser.parse(element);
 
-    var oneWay = new _OneWayDataBinder(object);
-    elementDescriptor.visit(oneWay);
+    binders.add(new _OneWayDataBinder(object));
+    binders.add(new _TwoWayDataBinder(object));
 
-    _watchers = oneWay.watchers;
+    for(var b in binders){
+      elementDescriptor.visit(b);
+    }
   }
 
-  void unbind(){
-    _watchers.forEach((_) => _());
-  }
+  void unbind()
+    => binders.forEach((_) => _.unbind());
 }

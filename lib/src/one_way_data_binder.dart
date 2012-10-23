@@ -7,18 +7,22 @@ class _OneWayDataBinder {
 
   _OneWayDataBinder(this.object);
 
+  unbind()
+    => watchers.forEach((_) => _());
+
   visitElement(ElementNodeDescriptor e){
     for (var child in e.children) {
       child.visit(this);
     }
   }
 
-  visitText(TextNodeDescriptor t){
-    _setupBinding(t);
-  }
+  visitText(TextNodeDescriptor t)
+    => _setupBinding(t);
 
-  visitAttribute(AttributeDescriptor a){
-    _setupBinding(a);
+  visitAttribute(AttributeDescriptor a)
+    => _setupBinding(a);
+
+  visitDataBinding(DataBindingDescriptor d){
   }
 
   _setupBinding(node){
@@ -39,14 +43,14 @@ class _OneWayDataBinder {
     callback(new WatchEvent(null, handle.value));
   }
 
-  _buildHandles(boundNames) =>
-    boundNames.reduce({}, (memo, curr){
+  _buildHandles(boundNames)
+    => boundNames.reduce({}, (memo, curr){
       memo[curr] = reflector.createHandle(object, curr);
       return memo;
     });
 
-  _buildDynamicValue(str, handles) =>
-    new _DynamicValueBuilder(str, handles).build();
+  _buildDynamicValue(str, handles)
+    => new _DynamicValueBuilder(str, handles).build();
 }
 
 class _DynamicValueBuilder{

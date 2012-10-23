@@ -8,10 +8,12 @@ import 'package:web_components/watcher.dart';
 import 'dart:html';
 
 part 'src/one_way_data_binding_tests.dart';
+part 'src/two_way_data_binding_tests.dart';
 part 'src/utils.dart';
 
 main(){
   useHtmlEnhancedConfiguration();
 
   testOneWayDataBinding();
+  testTwoWayDataBinding();
 }
