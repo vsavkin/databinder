@@ -18,7 +18,7 @@ testOneWayDataBinding() {
     test("it throws an exception when invalid property", () {
       var person = new Person("Dolly");
       expect(
-        () =>bind("<div>{{invalid}}</div>", person),
+        () => bind("<div>{{invalid}}</div>", person),
         throwsA(new isInstanceOf<DataBinderException>()));
     });
 
@@ -92,6 +92,19 @@ testOneWayDataBinding() {
       dispatch();
 
       expect(element.text, equals("Hello Dolly!"));
+    });
+
+    test("raising an exception when trying to bind twice", (){
+      var element = new Element.html("<div>Hello {{name}}!</div>");
+      var person = new Person("Dolly");
+
+      var binder = new DataBinder(element, person);
+      binder.bind();
+      binder.unbind();
+
+      expect(
+          () => binder.bind(),
+          throwsA(new isInstanceOf<DataBinderException>()));
     });
   });
 }

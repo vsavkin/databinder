@@ -1,12 +1,10 @@
 part of databinder;
 
-class _TwoWayDataBinder {
-  Reflector reflector = new Reflector();
-  Object object;
+class _TwoWayDataBinder extends _BinderBase{
   List watchers = [];
   List listeners = [];
 
-  _TwoWayDataBinder(this.object);
+  _TwoWayDataBinder(object) : super(object);
 
   unbind(){
     watchers.forEach((_) => _());
@@ -17,12 +15,6 @@ class _TwoWayDataBinder {
     for (var child in e.children) {
       child.visit(this);
     }
-  }
-
-  visitText(TextNodeDescriptor t){
-  }
-
-  visitAttribute(AttributeDescriptor a){
   }
 
   visitDataBinding(DataBindingDescriptor d){

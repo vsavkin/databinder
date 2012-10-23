@@ -1,25 +1,29 @@
 part of databinder;
 
 class DataBinder {
-  Parser parser = new Parser();
+  final Parser _parser = new Parser();
+  final List _binders = [];
 
-  Element element;
-  Object object;
-  List binders = [];
+  final Element element;
+  final Object object;
+  bool _ran = false;
 
-  DataBinder(this.element, this.object);
+  DataBinder(this.element, this.object){
+    _binders.add(new _OneWayDataBinder(object));
+    _binders.add(new _TwoWayDataBinder(object));
+  }
 
   void bind() {
-    var elementDescriptor = parser.parse(element);
+    if(_ran) throw new DataBinderException("Bind cannot be called multiple times");
 
-    binders.add(new _OneWayDataBinder(object));
-    binders.add(new _TwoWayDataBinder(object));
-
-    for(var b in binders){
+    var elementDescriptor = _parser.parse(element);
+    for(var b in _binders){
       elementDescriptor.visit(b);
     }
+
+    _ran = true;
   }
 
   void unbind()
-    => binders.forEach((_) => _.unbind());
+    => _binders.forEach((_) => _.unbind());
 }

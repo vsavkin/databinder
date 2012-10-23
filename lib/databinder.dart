@@ -12,3 +12,4 @@ part 'src/data_binder_exception.dart';
 part 'src/one_way_data_binder.dart';
 part 'src/two_way_data_binder.dart';
 part 'src/binder_configuration.dart';
+part 'src/binder_base.dart';

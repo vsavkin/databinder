@@ -1,11 +1,9 @@
 part of databinder;
 
-class _OneWayDataBinder {
-  Reflector reflector = new Reflector();
-  Object object;
+class _OneWayDataBinder extends _BinderBase{
   List watchers = [];
 
-  _OneWayDataBinder(this.object);
+  _OneWayDataBinder(object) : super(object);
 
   unbind()
     => watchers.forEach((_) => _());
@@ -21,9 +19,6 @@ class _OneWayDataBinder {
 
   visitAttribute(AttributeDescriptor a)
     => _setupBinding(a);
-
-  visitDataBinding(DataBindingDescriptor d){
-  }
 
   _setupBinding(node){
     var handles = _buildHandles(node.boundNames);
