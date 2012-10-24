@@ -42,11 +42,27 @@ class DataBindingDescriptor {
   String get value
     => element.value;
 
-  set value(newValue) =>
-    element.value = newValue.toString();
+  set value(newValue)
+    => element.value = newValue.toString();
 
   void visit(visitor)
     => visitor.visitDataBinding(this);
+}
+
+class DataActionDescriptor {
+  final Element element;
+  final String expression;
+
+  DataActionDescriptor(this.element, this.expression);
+
+  String get eventName
+    => expression.split(":")[0];
+
+  String get methodName
+    => expression.split(":")[1];
+
+  void visit(visitor)
+    => visitor.visitDataAction(this);
 }
 
 class ElementNodeDescriptor {

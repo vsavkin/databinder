@@ -11,12 +11,6 @@ class _TwoWayDataBinder extends _BinderBase{
     listeners.forEach((_) => _.deattach());
   }
 
-  visitElement(ElementNodeDescriptor e){
-    for (var child in e.children) {
-      child.visit(this);
-    }
-  }
-
   visitDataBinding(DataBindingDescriptor d){
     var handle = _createHandle(d);
     _setupModelToViewListener(d, handle);
@@ -25,7 +19,7 @@ class _TwoWayDataBinder extends _BinderBase{
 
   _createHandle(desc){
     var name = desc.propName.substring(6);
-    return reflector.createHandle(object, name);
+    return reflector.createPropertyHandle(object, name);
   }
 
   _setupModelToViewListener(desc, handle){
@@ -38,20 +32,5 @@ class _TwoWayDataBinder extends _BinderBase{
     var listener = new _AttachedListener(desc.element.on.change, (_) => handle.value = desc.value);
     listeners.add(listener);
     listener.attach();
-  }
-}
-
-class _AttachedListener {
-  EventListenerList list;
-  EventListener listener;
-
-  _AttachedListener(this.list, this.listener);
-
-  deattach(){
-    list.remove(listener);
-  }
-
-  attach(){
-    list.add(listener);
   }
 }

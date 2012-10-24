@@ -5,6 +5,13 @@ class Person {
   int age;
 
   Person(this.name, [this.age]);
+
+  doubleAge(e)
+    => age = age * 2;
+
+  methodWithoutArguments(){
+    throw new Exception("Cannot be called through callbacks");
+  }
 }
 
 Element bind(String text, object){

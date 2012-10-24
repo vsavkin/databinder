@@ -42,10 +42,13 @@ class Parser {
   }
 
   _parseAttribute(element, attrName, attrValue){
-    if(attrName == "data-bind"){
-      return _parseDataBinding(element, attrValue);
-    } else {
-      return _parseSimpleAttribute(element, attrName, attrValue);
+    switch(attrName){
+      case "data-bind":
+        return _parseDataBinding(element, attrValue);
+      case "data-action":
+        return _parseDataAction(element, attrValue);
+      default:
+        return _parseSimpleAttribute(element, attrName, attrValue);
     }
   }
 
@@ -59,4 +62,7 @@ class Parser {
 
   _parseDataBinding(element, attrValue)
     => new DataBindingDescriptor(element, attrValue);
+
+  _parseDataAction(element, attrValue)
+    => new DataActionDescriptor(element, attrValue);
 }

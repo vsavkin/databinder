@@ -51,6 +51,7 @@ testTwoWayDataBinding() {
       expect(person.name, equals("Sam"));
     });
 
+// exception in a callback, figure out how to test it
 //    test("non-string fields", () {
 //      var person = new Person("Dolly", 99);
 //      var element = bind("<input data-bind='value:age'/>", person);

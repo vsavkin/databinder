@@ -11,6 +11,7 @@ class DataBinder {
   DataBinder(this.element, this.object){
     _binders.add(new _OneWayDataBinder(object));
     _binders.add(new _TwoWayDataBinder(object));
+    _binders.add(new _DataActionBinder(object));
   }
 
   void bind() {

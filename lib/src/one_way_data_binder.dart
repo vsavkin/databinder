@@ -8,12 +8,6 @@ class _OneWayDataBinder extends _BinderBase{
   unbind()
     => watchers.forEach((_) => _());
 
-  visitElement(ElementNodeDescriptor e){
-    for (var child in e.children) {
-      child.visit(this);
-    }
-  }
-
   visitText(TextNodeDescriptor t)
     => _setupBinding(t);
 
@@ -40,7 +34,7 @@ class _OneWayDataBinder extends _BinderBase{
 
   _buildHandles(boundNames)
     => boundNames.reduce({}, (memo, curr){
-      memo[curr] = reflector.createHandle(object, curr);
+      memo[curr] = reflector.createPropertyHandle(object, curr);
       return memo;
     });
 
