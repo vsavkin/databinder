@@ -3,9 +3,9 @@ part of databinder;
 class Parser {
   final BinderConfiguration _config = new BinderConfiguration();
 
-  ElementDescriptor parse(h.Element element) {
+  ElementNode parse(h.Element element) {
     var res = _parseElement(element);
-    return res != null ? res : new ElementDescriptor.empty(element);
+    return res != null ? res : new ElementNode.empty(element);
   }
 
   _parseElement(element)
@@ -14,12 +14,12 @@ class Parser {
       _parseSimpleElement(element);
 
   _parseTemplate(element)
-    => new TemplateDescriptor(element);
+    => new TemplateNode(element);
 
   _parseSimpleElement(element) {
     var nodes = _parseChildrenNodes(element);
     nodes.addAll(_parseAttributes(element));
-    return (!nodes.isEmpty()) ? new ElementDescriptor(element, nodes) : null;
+    return (!nodes.isEmpty()) ? new ElementNode(element, nodes) : null;
   }
 
   _parseChildrenNodes(element)
@@ -38,7 +38,7 @@ class Parser {
     if (matches == null) return null;
 
     var attrNames = matches.map((Match m) => m.group(1));
-    return new TextDescriptor(textNode, attrNames);
+    return new TextNode(textNode, attrNames);
   }
 
   _parseAttributes(element){
@@ -65,12 +65,12 @@ class Parser {
     if (matches == null) return null;
 
     var attrNames = matches.map((Match m) => m.group(1));
-    return new AttributeDescriptor(element, attrName, attrNames);
+    return new AttributeNode(element, attrName, attrNames);
   }
 
   _parseDataBinding(element, attrValue)
-    => new DataBindingDescriptor(element, attrValue);
+    => new DataBindingNode(element, attrValue);
 
   _parseDataAction(element, attrValue)
-    => new DataActionDescriptor(element, attrValue);
+    => new DataActionNode(element, attrValue);
 }

@@ -6,25 +6,25 @@ abstract class _BinderBase {
 
   _BinderBase(this.object);
 
-  visitElement(ElementDescriptor e){
+  visitElement(ElementNode e){
     for (var child in e.children) {
       child.visit(this);
     }
   }
 
-  visitText(TextDescriptor t){
+  visitText(TextNode t){
   }
 
-  visitAttribute(AttributeDescriptor a){
+  visitAttribute(AttributeNode a){
   }
 
-  visitDataBinding(DataBindingDescriptor d){
+  visitDataBinding(DataBindingNode d){
   }
 
-  visitDataAction(DataActionDescriptor d){
+  visitDataAction(DataActionNode d){
   }
 
-  visitTemplate(TemplateDescriptor t){
+  visitTemplate(TemplateNode t){
   }
 
   bind(NodeDescriptor n)

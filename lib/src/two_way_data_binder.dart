@@ -11,7 +11,7 @@ class _TwoWayDataBinder extends _BinderBase{
     listeners.forEach((_) => _.deattach());
   }
 
-  visitDataBinding(DataBindingDescriptor d){
+  visitDataBinding(DataBindingNode d){
     var handle = _createHandle(d);
     _setupModelToViewListener(d, handle);
     _setupViewToModelListener(d, handle);

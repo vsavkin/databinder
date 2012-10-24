@@ -1,10 +1,10 @@
 part of databinder;
 
-class TextDescriptor {
+class TextNode {
   final h.Text node;
   final List<String> boundNames;
 
-  TextDescriptor(this.node, this.boundNames);
+  TextNode(this.node, this.boundNames);
 
   String get value
     => node.text;
@@ -16,12 +16,12 @@ class TextDescriptor {
     => visitor.visitText(this);
 }
 
-class AttributeDescriptor {
+class AttributeNode {
   final h.Element element;
   final String attrName;
   final List<String> boundNames;
 
-  AttributeDescriptor(this.element, this.attrName, this.boundNames);
+  AttributeNode(this.element, this.attrName, this.boundNames);
 
   String get value
     => element.attributes[attrName];
@@ -33,11 +33,11 @@ class AttributeDescriptor {
     => visitor.visitAttribute(this);
 }
 
-class DataBindingDescriptor {
+class DataBindingNode {
   final h.Element element;
   final String propName;
 
-  DataBindingDescriptor(this.element, this.propName);
+  DataBindingNode(this.element, this.propName);
 
   String get value
     => element.value;
@@ -49,11 +49,11 @@ class DataBindingDescriptor {
     => visitor.visitDataBinding(this);
 }
 
-class DataActionDescriptor {
+class DataActionNode {
   final h.Element element;
   final String expression;
 
-  DataActionDescriptor(this.element, this.expression);
+  DataActionNode(this.element, this.expression);
 
   String get eventName
     => expression.split(":")[0];
@@ -65,21 +65,21 @@ class DataActionDescriptor {
     => visitor.visitDataAction(this);
 }
 
-class ElementDescriptor {
+class ElementNode {
   h.Element element;
   final List children;
 
-  ElementDescriptor(this.element, this.children);
-  ElementDescriptor.empty(this.element) : children = [];
+  ElementNode(this.element, this.children);
+  ElementNode.empty(this.element) : children = [];
 
   void visit(visitor)
     => visitor.visitElement(this);
 }
 
-class TemplateDescriptor {
+class TemplateNode{
   h.Element element;
 
-  TemplateDescriptor(this.element);
+  TemplateNode(this.element);
 
   void visit(visitor)
     => visitor.visitTemplate(this);

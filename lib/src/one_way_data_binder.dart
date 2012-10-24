@@ -8,10 +8,10 @@ class _OneWayDataBinder extends _BinderBase{
   unbind()
     => watchers.forEach((_) => _());
 
-  visitText(TextDescriptor t)
+  visitText(TextNode t)
     => _setupBinding(t);
 
-  visitAttribute(AttributeDescriptor a)
+  visitAttribute(AttributeNode a)
     => _setupBinding(a);
 
   _setupBinding(node){

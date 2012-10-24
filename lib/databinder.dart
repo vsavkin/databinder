@@ -6,7 +6,7 @@ import 'dart:mirrors';
 
 part 'src/data_binder.dart';
 part 'src/parser.dart';
-part 'src/node_descriptor.dart';
+part 'src/nodes.dart';
 part 'src/reflector.dart';
 part 'src/data_binder_exception.dart';
 

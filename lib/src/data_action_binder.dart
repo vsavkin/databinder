@@ -9,7 +9,7 @@ class _DataActionBinder extends _BinderBase{
     listeners.forEach((_) => _.deattach());
   }
 
-  visitDataAction(DataActionDescriptor d) {
+  visitDataAction(DataActionNode d) {
     var eventList = reflector.readProperty(d.element.on, d.eventName);
     var callback = reflector.createCallback(object, d.methodName);
     _createListener(eventList, callback);
