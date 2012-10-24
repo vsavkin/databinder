@@ -1,8 +1,8 @@
 part of databinder;
 
 class _AttachedListener {
-  EventListenerList list;
-  EventListener listener;
+  h.EventListenerList list;
+  h.EventListener listener;
 
   _AttachedListener(this.list, this.listener);
 

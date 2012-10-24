@@ -2,7 +2,7 @@ part of databinder;
 
 abstract class _BinderBase {
   Reflector reflector = new Reflector();
-  Object object;
+  var object;
 
   _BinderBase(this.object);
 

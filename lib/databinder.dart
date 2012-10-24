@@ -1,7 +1,7 @@
 library databinder;
 
 import 'package:web_components/watcher.dart';
-import 'dart:html';
+import 'dart:html' as h;
 import 'dart:mirrors';
 
 part 'src/data_binder.dart';

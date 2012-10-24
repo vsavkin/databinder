@@ -1,7 +1,7 @@
 part of databinder;
 
 class TextDescriptor {
-  final Text node;
+  final h.Text node;
   final List<String> boundNames;
 
   TextDescriptor(this.node, this.boundNames);
@@ -17,7 +17,7 @@ class TextDescriptor {
 }
 
 class AttributeDescriptor {
-  final Element element;
+  final h.Element element;
   final String attrName;
   final List<String> boundNames;
 
@@ -34,7 +34,7 @@ class AttributeDescriptor {
 }
 
 class DataBindingDescriptor {
-  final Element element;
+  final h.Element element;
   final String propName;
 
   DataBindingDescriptor(this.element, this.propName);
@@ -50,7 +50,7 @@ class DataBindingDescriptor {
 }
 
 class DataActionDescriptor {
-  final Element element;
+  final h.Element element;
   final String expression;
 
   DataActionDescriptor(this.element, this.expression);
@@ -66,7 +66,7 @@ class DataActionDescriptor {
 }
 
 class ElementDescriptor {
-  Element element;
+  h.Element element;
   final List children;
 
   ElementDescriptor(this.element, this.children);
@@ -77,7 +77,7 @@ class ElementDescriptor {
 }
 
 class TemplateDescriptor {
-  Element element;
+  h.Element element;
 
   TemplateDescriptor(this.element);
 

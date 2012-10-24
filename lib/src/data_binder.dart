@@ -4,8 +4,8 @@ class DataBinder {
   final Parser _parser = new Parser();
   final List _binders = [];
 
-  final Element element;
-  final Object object;
+  final h.Element element;
+  final object;
   bool _ran = false;
 
   DataBinder(this.element, this.object){
