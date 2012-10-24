@@ -9,11 +9,11 @@ part 'src/parser.dart';
 part 'src/nodes.dart';
 part 'src/reflector.dart';
 part 'src/data_binder_exception.dart';
-
-part 'src/attached_listener.dart';
-part 'src/one_way_data_binder.dart';
-part 'src/two_way_data_binder.dart';
-part 'src/data_action_binder.dart';
-
 part 'src/binder_configuration.dart';
-part 'src/binder_base.dart';
+
+part 'src/binders/attached_listener.dart';
+part 'src/binders/one_way_data_binder.dart';
+part 'src/binders/two_way_data_binder.dart';
+part 'src/binders/data_action_binder.dart';
+part 'src/binders/binder_base.dart';
+
