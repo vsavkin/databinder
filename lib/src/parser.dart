@@ -3,15 +3,23 @@ part of databinder;
 class Parser {
   final BinderConfiguration _config = new BinderConfiguration();
 
-  ElementNodeDescriptor parse(Element e) {
+  ElementDescriptor parse(Element e) {
     var res = _parseElement(e);
-    return res != null ? res : new ElementNodeDescriptor.empty(e);
+    return res != null ? res : new ElementDescriptor.empty(e);
   }
 
-  _parseElement(Element e) {
+  _parseElement(Element e)
+    => (e.tagName == "template") ?
+      _parseTemplate(e) :
+      _parseSimpleElement(e);
+
+  _parseTemplate(Element e)
+    => new TemplateDescriptor(e);
+
+  _parseSimpleElement(Element e) {
     var nodes = _parseChildrenNodes(e);
     nodes.addAll(_parseAttributes(e));
-    return (!nodes.isEmpty()) ? new ElementNodeDescriptor(e, nodes) : null;
+    return (!nodes.isEmpty()) ? new ElementDescriptor(e, nodes) : null;
   }
 
   _parseChildrenNodes(element)
@@ -30,7 +38,7 @@ class Parser {
     if (matches == null) return null;
 
     var attrNames = matches.map((Match m) => m.group(1));
-    return new TextNodeDescriptor(textNode, attrNames);
+    return new TextDescriptor(textNode, attrNames);
   }
 
   _parseAttributes(element){

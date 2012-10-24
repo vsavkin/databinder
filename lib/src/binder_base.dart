@@ -6,13 +6,13 @@ abstract class _BinderBase {
 
   _BinderBase(this.object);
 
-  visitElement(ElementNodeDescriptor e){
+  visitElement(ElementDescriptor e){
     for (var child in e.children) {
       child.visit(this);
     }
   }
 
-  visitText(TextNodeDescriptor t){
+  visitText(TextDescriptor t){
   }
 
   visitAttribute(AttributeDescriptor a){
@@ -22,6 +22,9 @@ abstract class _BinderBase {
   }
 
   visitDataAction(DataActionDescriptor d){
+  }
+
+  visitTemplate(TemplateDescriptor t){
   }
 
   bind(NodeDescriptor n)

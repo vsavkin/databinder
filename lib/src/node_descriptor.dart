@@ -1,10 +1,10 @@
 part of databinder;
 
-class TextNodeDescriptor {
+class TextDescriptor {
   final Text node;
   final List<String> boundNames;
 
-  TextNodeDescriptor(this.node, this.boundNames);
+  TextDescriptor(this.node, this.boundNames);
 
   String get value
     => node.text;
@@ -65,13 +65,22 @@ class DataActionDescriptor {
     => visitor.visitDataAction(this);
 }
 
-class ElementNodeDescriptor {
+class ElementDescriptor {
   Element element;
   final List children;
 
-  ElementNodeDescriptor(this.element, this.children);
-  ElementNodeDescriptor.empty(this.element) : children = [];
+  ElementDescriptor(this.element, this.children);
+  ElementDescriptor.empty(this.element) : children = [];
 
   void visit(visitor)
     => visitor.visitElement(this);
+}
+
+class TemplateDescriptor {
+  Element element;
+
+  TemplateDescriptor(this.element);
+
+  void visit(visitor)
+    => visitor.visitTemplate(this);
 }
