@@ -17,9 +17,9 @@ class DataBinder {
   void bind() {
     if(_ran) throw new DataBinderException("Bind cannot be called multiple times");
 
-    var elementDescriptor = _parser.parse(element);
+    var node = _parser.parse(element);
     for(var b in _binders){
-      elementDescriptor.visit(b);
+      node.visit(b);
     }
 
     _ran = true;

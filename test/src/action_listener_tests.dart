@@ -40,6 +40,9 @@ testActionListener() {
 //          throwsA(new isInstanceOf<DataBinderException>()));
 //    });
 
+
+    //invalid format
+
     test("unbinding", () {
       var person = new Person("Dolly", 50);
       var element = new Element.html("<button data-action='click:doubleAge'/>");

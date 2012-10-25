@@ -29,8 +29,14 @@ class _TwoWayDataBinder extends _BinderBase{
   }
 
   _setupViewToModelListener(desc, handle){
-    var listener = new _AttachedListener(desc.element.on.change, (_) => handle.value = desc.value);
+    var callback = (_) => handle.value = desc.value;
+
+    var listener = new _AttachedListener(desc.element.on.change, callback);
     listeners.add(listener);
+
+//    listener = new _AttachedListener(desc.element.on.keyUp, callback);
+//    listeners.add(listener);
+
     listener.attach();
   }
 }

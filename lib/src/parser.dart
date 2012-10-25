@@ -9,7 +9,7 @@ class Parser {
   }
 
   _parseElement(element)
-    => (element.tagName == "template") ?
+    => (element.tagName == "TEMPLATE") ?
       _parseTemplate(element) :
       _parseSimpleElement(element);
 
