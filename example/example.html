@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Data Binding Example</title>
+  <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.1.0/css/bootstrap-combined.min.css">
+  <link rel="stylesheet" href="example.css">
+</head>
+
+<body>
+<script type="application/dart" src="example.dart"></script>
+<script src="http://dart.googlecode.com/svn/branches/bleeding_edge/dart/client/dart.js"></script>
+
+<div class="hero-unit">
+  <h1>Data binding via object mirrors</h1>
+
+  <h4>All elements on this page are bound to the same Person object.</h4>
+</div>
+
+<div class="well well-large block">
+  <h2>One-way data-binding</h2>
+
+  <fieldset class="form-horizontal" id="one-way">
+    <div class="control-group">
+      <span class="control-label">First name</span>
+
+      <div class="controls">{{firstName}}</div>
+    </div>
+
+    <div class="control-group">
+      <span class="control-label">Last name</span>
+
+      <div class="controls">{{lastName}}</div>
+    </div>
+  </fieldset>
+
+
+  <h5>Implementation:</h5>
+<pre>
+HTML:
+&lt;fieldset id=&quot;one-way&quot;&gt;
+  First name {{firstName}}
+  Last name {{lastName}}
+&lt;/fieldset&gt;
+
+DART:
+var person = new Person("Jim", "Smith");
+var element = query("#one-way");
+var binder = new DataBinder(element, person);
+binder.bind();
+
+TO UNBIND:
+binder.unbind();
+</pre>
+</div>
+
+<div class="well well-large block">
+  <h2>Two-way data-binding</h2>
+
+  <fieldset class="form-horizontal" id="two-way-form-1">
+    <div class="control-group">
+      <span class="control-label">First name</span>
+
+      <div class="controls"><input data-bind="value:firstName"/></div>
+    </div>
+
+    <div class="control-group">
+      <span class="control-label">Last name</span>
+
+      <div class="controls"><input data-bind="value:lastName"/></div>
+    </div>
+  </fieldset>
+
+  <h5>Implementation:</h5>
+<pre>
+HTML:
+&lt;fieldset id=&quot;two-way-form-1&quot;&gt;
+  First name &lt;input data-bind=&quot;value:firstName&quot;/&gt;
+  Last name &lt;input data-bind=&quot;value:lastName&quot;/&gt;
+&lt;/fieldset&gt;
+
+DART:
+var person = new Person("Jim", "Smith");
+var element = query("#two-way-form-1");
+var binder = new DataBinder(element, person);
+binder.bind();
+
+TO UNBIND:
+binder.unbind();
+</pre>
+</div>
+
+<div class="well well-large block">
+  <h2>Two-way data-binding</h2>
+
+  <fieldset class="form-horizontal" id="two-way-form-2">
+    <div class="control-group">
+      <span class="control-label">First name</span>
+
+      <div class="controls"><input data-bind="value:firstName"/></div>
+    </div>
+
+    <div class="control-group">
+      <span class="control-label">Last name</span>
+
+      <div class="controls"><input data-bind="value:lastName"/></div>
+    </div>
+  </fieldset>
+
+  <h5>Implementation:</h5>
+<pre>
+HTML:
+&lt;fieldset id=&quot;two-way-form-2&quot;&gt;
+  First name &lt;input data-bind=&quot;value:firstName&quot;/&gt;
+  Last name &lt;input data-bind=&quot;value:lastName&quot;/&gt;
+&lt;/fieldset&gt;
+
+DART:
+var person = new Person("Jim", "Smith");
+var element = query("#two-way-form-2");
+var binder = new DataBinder(element, person);
+binder.bind();
+
+TO UNBIND:
+binder.unbind();
+</pre>
+</div>
+
+<div style="clear: both;"/>
+
+<div class="well well-large block">
+<h2>Action Binding</h2>
+<div id="actions" >
+  <button data-action="click:toUpperCase" class="btn">TO UPPER CASE</button>
+  <button data-action="click:toLowerCase" class="btn">to lower case</button>
+</div>
+
+<h5>Implementation:</h5>
+<pre>
+HTML:
+&lt;div id=&quot;actions&quot;&gt;
+  &lt;button data-action=&quot;click:toUpperCase&quot;&gt;TO UPPER CASE&lt;/button&gt;
+  &lt;button data-action=&quot;click:toLowerCase&quot;&gt;to lower case&lt;/button&gt;
+&lt;/div&gt;
+
+DART:
+class Person {
+  String firstName, lastName;
+
+  Person(this.firstName, this.lastName);
+
+  toUpperCase(e){
+    firstName = firstName.toUpperCase();
+    lastName = lastName.toUpperCase();
+  }
+
+  toLowerCase(e){
+    firstName = firstName.toLowerCase();
+    lastName = lastName.toLowerCase();
+  }
+}
+
+var person = new Person("Jim", "Smith");
+var element = query("#action");
+var binder = new DataBinder(element, person);
+binder.bind();
+
+TO UNBIND:
+binder.unbind();
+</pre>
+</div>
+
+
+<div class="well well-large block">
+  <h2>Unbinding and rebinding</h2>
+
+
+  <div>
+    <button id="bind-btn" class="btn">Bind</button>
+    <button id="unbind-btn" class="btn">Unbind</button>
+  </div>
+  <h5>Implementation:</h5>
+<pre>
+TO BIND:
+binder.bind();
+
+TO UNBIND:
+binder.unbind();
+</pre>
+
+  <h5>Notes:</h5>
+  <span class="help-block">
+    Dynamic binding is easier to understand and more flexible than the one
+    relying on compilation. If you want to bind an object to an element, just
+    pass them to the binder and call "bind". Do you want to unbind? Just call "unbind".
+    You can load template from the database, or dynamically build them.
+  </span>
+</div>
+
+
+
+
+</body>
+</html>
