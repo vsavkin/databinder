@@ -1,28 +1,39 @@
-part of databinder;
+part of databinder_impl;
+
+typedef PropertyGetter();
+typedef PropertySetter(newValue);
+
+class PropertyHandle {
+  PropertyGetter getter;
+  PropertySetter setter;
+
+  PropertyHandle(this.getter, this.setter);
+}
 
 class Reflector {
-  Handle createPropertyHandle(object, String prop) {
+  PropertyHandle createPropertyHandle(object, String prop) {
     var mirror = reflect(object);
-    prop = _sanitizeString(prop);
+    prop = sanitizeString(prop);
 
-    var getter = _getter(mirror, object, prop);
-    var setter = _setter(mirror, object, prop);
-    return new Handle(getter, setter);
+    var getter = getter(mirror, object, prop);
+    var setter = setter(mirror, object, prop);
+    return new PropertyHandle(getter, setter);
   }
 
   createCallback(object, String method){
     var mirror = reflect(object);
-    method = _sanitizeString(method);
-    return _methodCall(mirror, object, method);
+    method = sanitizeString(method);
+    return methodCall(mirror, object, method);
   }
 
   readProperty(object, String prop){
     var mirror = reflect(object);
-    prop = _sanitizeString(prop);
-    return _read(mirror, object, prop);
+    prop = sanitizeString(prop);
+    return read(mirror, object, prop);
   }
 
-  _methodCall(mirror, object, method)
+
+  methodCall(mirror, object, method)
     => (e){
       try{
         mirror.invoke(method, [reflect(e)]).value;
@@ -31,7 +42,7 @@ class Reflector {
       }
     };
 
-  _read(mirror, object, prop) {
+  read(mirror, object, prop) {
     try {
       return mirror.getField(prop).value.reflectee;
     } on MirroredCompilationError catch(e){
@@ -39,7 +50,7 @@ class Reflector {
     }
   }
 
-  _getter(mirror, object, prop)
+  getter(mirror, object, prop)
     => (){
       try{
         return mirror.getField(prop).value.reflectee.toString();
@@ -48,15 +59,15 @@ class Reflector {
       }
     };
 
-  _setter(mirror, object, prop)
+  setter(mirror, object, prop)
     => (newValue){
       try{
-        mirror.setField(prop, _sanitizeString(newValue)).value;
+        mirror.setField(prop, sanitizeString(newValue)).value;
       } on MirroredCompilationError catch(e){
         throw new DataBinderException("Object ${object} cannot be bound to ${prop}", e);
       }
     };
 
-  _sanitizeString(str)
+  sanitizeString(str)
     => new String.fromCharCodes(str.charCodes());
 }

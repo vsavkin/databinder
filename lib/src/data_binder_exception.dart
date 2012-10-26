@@ -1,4 +1,4 @@
-part of databinder;
+part of databinder_impl;
 
 class DataBinderException implements Exception {
   final message;

@@ -1,26 +1,24 @@
-part of databinder;
+part of databinder_impl;
 
 class DataBinder {
-  final Parser _parser = new Parser();
-  final List _binders = [];
+  final _parser = new Parser();
+  final _binders = [];
 
-  final h.Element element;
-  final object;
+  final h.Element targetElement;
+  final sourceObject;
   bool _ran = false;
 
-  DataBinder(this.element, this.object){
-    _binders.add(new _OneWayDataBinder(object));
-    _binders.add(new _TwoWayDataBinder(object));
-    _binders.add(new _DataActionBinder(object));
+  DataBinder(this.targetElement, this.sourceObject){
+    _binders.add(new OneWayDataBinder(sourceObject));
+    _binders.add(new TwoWayDataBinder(sourceObject));
+    _binders.add(new DataActionBinder(sourceObject));
   }
 
   void bind() {
     if(_ran) throw new DataBinderException("Bind cannot be called multiple times");
 
-    var node = _parser.parse(element);
-    for(var b in _binders){
-      node.visit(b);
-    }
+    var targetNode = _parser.parse(targetElement);
+    _binders.forEach((_) => targetNode.visit(_));
 
     _ran = true;
   }

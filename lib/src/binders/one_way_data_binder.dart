@@ -1,53 +1,43 @@
-part of databinder;
+part of databinder_impl;
 
-class _OneWayDataBinder extends _BinderBase{
-  List watchers = [];
-
-  _OneWayDataBinder(object) : super(object);
-
-  unbind()
-    => watchers.forEach((_) => _());
+class OneWayDataBinder extends BinderBase{
+  OneWayDataBinder(sourceObject) : super(sourceObject);
 
   visitText(TextNode t)
-    => _setupBinding(t);
+    => setupBinding(t);
 
   visitAttribute(AttributeNode a)
-    => _setupBinding(a);
+    => setupBinding(a);
 
-  _setupBinding(node){
-    var handles = _buildHandles(node.boundNames);
-    var dynamicValue = _buildDynamicValue(node.value, handles);
-    _setupWatchers(node, handles, dynamicValue);
+  setupBinding(node){
+    var propHandles = buildPropertyHandles(node.boundNames);
+    var dynamicValue = buildDynamicValue(node.value, propHandles);
+    var updateViewCallback = (_) => node.value = dynamicValue();
+    setupWatchers(propHandles, updateViewCallback);
   }
 
-  _setupWatchers(node, handles, dynamicValue){
-    for(var handle in handles.getValues()){
-      _setupWatcher(node, handle, dynamicValue);
-    }
-  }
-
-  _setupWatcher(node, handle, dynamicValue){
-    var callback = (_) => node.value = dynamicValue();
-    watchers.add(watch(handle, callback));
-    callback(new WatchEvent(null, handle.value));
-  }
-
-  _buildHandles(boundNames)
+  buildPropertyHandles(boundNames)
     => boundNames.reduce({}, (memo, curr){
-      memo[curr] = reflector.createPropertyHandle(object, curr);
+      memo[curr] = reflector.createPropertyHandle(sourceObject, curr);
       return memo;
     });
 
-  _buildDynamicValue(str, handles)
-    => new _DynamicValueBuilder(str, handles).build();
+  buildDynamicValue(str, handles)
+    => new DynamicValueBuilder(str, handles).build();
+
+  setupWatchers(propHandles, updateViewCallback){
+    for(var propHandle in propHandles.getValues()){
+      modelObservers.register(propHandle.getter, updateViewCallback);
+    }
+  }
 }
 
-class _DynamicValueBuilder{
+class DynamicValueBuilder{
   final String str;
   final Map handles;
   final BinderConfiguration config = new BinderConfiguration();
 
-  _DynamicValueBuilder(this.str, this.handles);
+  DynamicValueBuilder(this.str, this.handles);
 
   build() =>
     buildFunction(buildParts());
@@ -75,7 +65,7 @@ class _DynamicValueBuilder{
         if(p is String){
           res.add(p);
         } else {
-          res.add(handles[p.name].value);
+          res.add(handles[p.name].getter());
         }
       }
       return res.toString();

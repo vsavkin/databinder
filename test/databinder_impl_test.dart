@@ -2,7 +2,7 @@ library databinder_test;
 
 import 'package:unittest/unittest.dart';
 import 'package:unittest/html_enhanced_config.dart';
-import 'package:databinder/databinder.dart';
+import 'package:databinder/databinder_impl.dart';
 
 import 'package:web_components/watcher.dart';
 import 'dart:html';

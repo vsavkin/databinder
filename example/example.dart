@@ -1,4 +1,4 @@
-import '../lib/databinder.dart';
+import 'package:databinder/databinder.dart';
 import 'dart:html';
 
 class Person {

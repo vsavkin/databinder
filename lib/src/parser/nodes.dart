@@ -1,4 +1,4 @@
-part of databinder;
+part of databinder_impl;
 
 class TextNode {
   final h.Text node;
@@ -35,9 +35,12 @@ class AttributeNode {
 
 class DataBindingNode {
   final h.Element element;
-  final String propName;
+  final String _propName;
 
-  DataBindingNode(this.element, this.propName);
+  DataBindingNode(this.element, this._propName);
+
+  String get propName
+    => _propName.substring(6);
 
   String get value
     => element.value;

@@ -1,16 +1,24 @@
-part of databinder;
+part of databinder_impl;
 
-abstract class _BinderBase {
+abstract class BinderBase {
   Reflector reflector = new Reflector();
-  var object;
+  ModelObservers modelObservers = new ModelObservers();
+  DomObservers domObservers = new DomObservers();
 
-  _BinderBase(this.object);
+  var sourceObject;
 
-  visitElement(ElementNode e){
-    for (var child in e.children) {
-      child.visit(this);
-    }
+  BinderBase(this.sourceObject);
+
+  bind(NodeDescriptor n)
+    => n.visit(this);
+
+  unbind(){
+    modelObservers.removeAll();
+    domObservers.removeAll();
   }
+
+  visitElement(ElementNode e)
+    => e.children.forEach((_) => _.visit(this));
 
   visitText(TextNode t){
   }
@@ -26,7 +34,4 @@ abstract class _BinderBase {
 
   visitTemplate(TemplateNode t){
   }
-
-  bind(NodeDescriptor n)
-    => n.visit(this);
 }
