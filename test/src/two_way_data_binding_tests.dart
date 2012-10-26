@@ -2,54 +2,85 @@ part of databinder_test;
 
 testTwoWayDataBinding() {
 
-  //teardown => unregister all events
   group("two-way data binding", () {
 
-    test("no bindings", () {
+    test("does nothing when no bindings", () {
       var person = new Person("Dolly");
-      var element = bind("<input/>", person);
+      var element = boundElement("<input/>", person);
       expect(element.value, equals(""));
     });
 
-    test("setting a value from the object", () {
+    test("sets the value from the bound object", () {
       var person = new Person("Dolly");
-      var element = bind("<input data-bind='value:name'/>", person);
+      var element = boundElement("<input data-bind='value:name'/>", person);
       expect(element.value, equals("Dolly"));
     });
 
-    test("update a bound property multiple times", () {
+    test("updates the bound property when object changes", () {
       var person = new Person("Dolly");
-      var element = bind("<input data-bind='value:name'/>", person);
+      var binder = bind("<input data-bind='value:name'/>", person);
 
       person.name = "Sam";
-      dispatch();
+      binder.notify();
 
-      expect(element.value, equals("Sam"));
+      expect(binder.targetElement.value, equals("Sam"));
     });
 
-    test("bindinds inside a child node", () {
+    test("works with child nodes", () {
       var person = new Person("Dolly");
-      var element = bind("<div><input data-bind='value:name' id='child'/></div>", person);
+      var element = boundElement("<div><input data-bind='value:name' id='child'/></div>", person);
       var child = element.query("#child");
 
       expect(child.value, equals("Dolly"));
     });
 
-    test("bindings to a non-string property", () {
-      var person = new Person("Dolly", 99);
-      var element = bind("<input data-bind='value:age'/>", person);
-      expect(element.value, equals("99"));
-    });
-
-    test("update an object when a field is updated", () {
+    test("updates the bound object when the fields gets updated", () {
       var person = new Person("Dolly");
-      var element = bind("<input data-bind='value:name'/>", person);
+      var element = boundElement("<input data-bind='value:name'/>", person);
 
       element.value = "Sam";
       element.on.change.dispatch(new Event("change"));
 
       expect(person.name, equals("Sam"));
     });
+
+    test("updates all model listeners after a DOM event has been processed", () {
+      var person = new Person("Dolly");
+      var html = "<div><input data-bind='value:name' id='el1'/><input data-bind='value:name' id='el2'/></div>";
+
+      var element = boundElement(html, person);
+      var el1 = element.query("#el1");
+      var el2 = element.query("#el2");
+
+      el1.value = "Sam";
+      el1.on.change.dispatch(new Event("change"));
+
+      expect(el2.value, equals("Sam"));
+    });
+
+    test("unbinds models watchers", () {
+      var person = new Person("Dolly");
+      var binder = bind("<input data-bind='value:name'/>", person);
+
+      person.name = "Sam";
+
+      binder.unbind();
+      binder.notify();
+
+      expect(binder.targetElement.value, equals("Dolly"));
+    });
+
+    test("unbinds DOM watchers", () {
+      var person = new Person("Dolly");
+      var binder = bind("<input data-bind='value:name'/>", person);
+      binder.unbind();
+
+      binder.targetElement.value = "Sam";
+      binder.targetElement.on.change.dispatch(new Event("change"));
+
+      expect(person.name, equals("Dolly"));
+    });
+
 
 // exception in a callback, figure out how to test it
 //    test("non-string fields", () {
@@ -62,34 +93,7 @@ testTwoWayDataBinding() {
 //      expect(person.age, equals(10));
 //    });
 
+//TODO: invalid format
 
-    test("unbinding model-to-view watchers", () {
-      var person = new Person("Dolly");
-      var element = new Element.html("<input data-bind='value:name'/>");
-
-      var binder = new DataBinder(element, person);
-      binder.bind();
-
-      person.name = "Sam";
-
-      binder.unbind();
-      dispatch();
-
-      expect(element.value, equals("Dolly"));
-    });
-
-    test("unbinding view-to-model watchers", () {
-      var person = new Person("Dolly");
-      var element = new Element.html("<input data-bind='value:name'/>");
-
-      var binder = new DataBinder(element, person);
-      binder.bind();
-      binder.unbind();
-
-      element.value = "Sam";
-      element.on.change.dispatch(new Event("change"));
-
-      expect(person.name, equals("Dolly"));
-    });
   });
 }

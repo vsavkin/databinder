@@ -9,7 +9,7 @@ import 'dart:html';
 
 part 'src/one_way_data_binding_tests.dart';
 part 'src/two_way_data_binding_tests.dart';
-part 'src/action_listener_tests.dart';
+part 'src/action_binders_tests.dart';
 part 'src/utils.dart';
 
 main(){
@@ -17,5 +17,5 @@ main(){
 
   testOneWayDataBinding();
   testTwoWayDataBinding();
-  testActionListener();
+  testActionBinders();
 }

@@ -1,24 +1,36 @@
 part of databinder_test;
 
-testActionListener() {
+testActionBinders() {
 
-  group("action listener", () {
+  group("action binders", () {
 
-    test("no listener", () {
+    test("does nothing when nothing is bound", () {
       var person = new Person("Dolly", 50);
-      var element = bind("<button/>", person);
+      var element = boundElement("<button/>", person);
       element.on.click.dispatch(new Event("click"));
 
       expect(person.age, equals(50));
     });
 
-    test("listener", () {
+    test("calls the specified method on the bound object", () {
       var person = new Person("Dolly", 50);
-      var element = bind("<button data-action='click:doubleAge'/>", person);
+      var element = boundElement("<button data-action='click:doubleAge'/>", person);
       element.on.click.dispatch(new Event("click"));
 
       expect(person.age, equals(100));
     });
+
+    test("unbinds", () {
+      var person = new Person("Dolly", 50);
+      var binder = bind("<button data-action='click:doubleAge'/>", person);
+      binder.unbind();
+
+      binder.targetElement.on.click.dispatch(new Event("click"));
+
+      expect(person.age, equals(50));
+    });
+
+//TODO: invalid format
 
 // exception in a callback, not sure how to test
 //    test("raising an exception when invalid method name", () {
@@ -40,20 +52,5 @@ testActionListener() {
 //          throwsA(new isInstanceOf<DataBinderException>()));
 //    });
 
-
-    //invalid format
-
-    test("unbinding", () {
-      var person = new Person("Dolly", 50);
-      var element = new Element.html("<button data-action='click:doubleAge'/>");
-
-      var binder = new DataBinder(element, person);
-      binder.bind();
-      binder.unbind();
-
-      element.on.click.dispatch(new Event("click"));
-
-      expect(person.age, equals(50));
-    });
   });
 }

@@ -25,4 +25,7 @@ class DataBinder {
 
   void unbind()
     => _binders.forEach((_) => _.unbind());
+
+  void notify()
+    => _binders.forEach((_) => _.notify());
 }

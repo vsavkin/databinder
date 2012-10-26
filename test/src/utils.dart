@@ -14,11 +14,14 @@ class Person {
   }
 }
 
-Element bind(String text, object){
+DataBinder bind(String text, object){
   var element = new Element.html(text);
 
   var binder = new DataBinder(element, object);
   binder.bind();
 
-  return element;
+  return binder;
 }
+
+Element boundElement(String text, object)
+  => bind(text, object).targetElement;
