@@ -39,7 +39,7 @@ testTwoWayDataBinding() {
       var element = boundElement("<input data-bind='value:name'/>", person);
 
       element.value = "Sam";
-      element.on.change.dispatch(new Event("change"));
+      element.on.change.dispatch(new Event("input"));
 
       expect(person.name, equals("Sam"));
     });
@@ -53,7 +53,7 @@ testTwoWayDataBinding() {
       var el2 = element.query("#el2");
 
       el1.value = "Sam";
-      el1.on.change.dispatch(new Event("change"));
+      el1.on.change.dispatch(new Event("input"));
 
       expect(el2.value, equals("Sam"));
     });
@@ -76,7 +76,7 @@ testTwoWayDataBinding() {
       binder.unbind();
 
       binder.targetElement.value = "Sam";
-      binder.targetElement.on.change.dispatch(new Event("change"));
+      binder.targetElement.on.change.dispatch(new Event("input"));
 
       expect(person.name, equals("Dolly"));
     });

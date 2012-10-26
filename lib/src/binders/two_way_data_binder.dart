@@ -19,6 +19,9 @@ class TwoWayDataBinder extends BinderBase{
 
   setupViewToModelListener(node, propHandle){
     var updateModelCallback = (_) => propHandle.setter(node.value);
-    domObservers.register(node.element.on.change, updateModelCallback);
+
+    //TODO: check the type of the element to attach right events
+    domObservers.register(node.element.on.input, updateModelCallback);
+    domObservers.register(node.element.on.keyDown, updateModelCallback);
   }
 }
