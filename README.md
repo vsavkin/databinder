@@ -1,22 +1,24 @@
 # DataBinder
 
-Data binding is a technique used to maintain synchronization of data. It's a key component of most MVP/MVVM frameworks. DataBinder is a Dart library that uses object mirrors to implement data binding. Though the primary focus of the library to be used for building MV* frameworks, it can be used directly.
+Data binding is a technique used to maintain synchronization of data. And it's a key component of most MVP/MVVM frameworks. 
+
+DataBinder is a Dart library implementing data binding via object mirrors. Though the primary focus of the library is to be used by frameworks, it can be used directly as well.
 
 ## Core principles
 
 #### Do all bindings dynamically => no compilation
 
-The compilation approch is a good solution in many situations, but I strongly believe that binding in runtime is more advantageous.
+I strongly believe that runtime binding is more advantageous than compilation.
 
 * No extra steps in the build process
 * Easier to understand
-* Templates can be build dynamically or retrieved from a database
+* Templates can be built dynamically or retrieved from a database
 
 #### Follow the MDV syntax as close as possible
 
 #### Provide extension points for frameworks
 
-To be a good foundation for bulding MV* frameworks Databinder should allow to plug in custom binders and customize parsing.
+To be a good foundation for building MV* frameworks Databinder should support custom binders.
 
 ## How to use it
 
@@ -52,7 +54,7 @@ To be a good foundation for bulding MV* frameworks Databinder should allow to pl
 * unbind - unregisters all the registred watchers
 * notify - triggers all the registered model watchers
 
-### One-way data-binding
+### One-way data binding
 
 	<fieldset id="one-way">
 	  First name {{firstName}}
@@ -70,7 +72,7 @@ To unbind:
 
 	binder.unbind();
 
-### Two-way data-binding
+### Two-way data binding
 
 	<fieldset id="two-way-form">
 	  First name <input data-bind="value:firstName"/>
@@ -112,13 +114,13 @@ Check out the example application that comes with the package to see the library
 
 ## Current status
 
-At this point, the library is more than just a spike, but not yet ready for production. 
+At this point the library is more than just a spike, but not quite ready for production. 
 
-The things I'm going to work on next:
+To be improved:
 
-* There are only integration tests at this point. Having more unit tests will be helpful.
-* Two-way data-bindindg works only with the input element. Other elements need to be supported as well.
-* At this point, you can only bind to the source object's getter. It requires some work, so the following binding will work as well: "data-bind='user.address.street.name'".
+* There are only integration tests at this point.
+* Two-way data binding works only with the input element. Other elements need to be supported as well.
+* At this point you can only bind to the source object's getter.
 * The implementation is naive when it comes to listening for DOM events. 
 
-Though it's very early days and so much stuff needs to be done, the library is already useful.
+Though it's very early days and so much stuff needs to be done, the library is already useful. So feel free to give it a try.
