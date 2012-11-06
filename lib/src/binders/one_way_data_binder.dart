@@ -26,7 +26,7 @@ class OneWayDataBinder extends BinderBase{
     => new DynamicValueBuilder(str, handles).build();
 
   setupWatchers(propHandles, updateViewCallback){
-    for(var propHandle in propHandles.getValues()){
+    for(var propHandle in propHandles.values){
       modelObservers.register(propHandle.getter, updateViewCallback);
     }
   }
@@ -49,9 +49,9 @@ class DynamicValueBuilder{
     var lastEnd = 0;
 
     for(var i in matches){
-      parts.add(str.substring(lastEnd, i.start()));
+      parts.add(str.substring(lastEnd, i.start));
       parts.add(new _BoundName(i.group(1)));
-      lastEnd = i.end();
+      lastEnd = i.end;
     }
     parts.add(str.substring(lastEnd, str.length));
 

@@ -39,13 +39,18 @@ class Reflector {
         mirror.invoke(method, [reflect(e)]).value;
       } on MirroredCompilationError catch(e){
         throw new DataBinderException("Method ${method} cannot be called on ${object}", e);
+      } on FutureUnhandledException catch(e){
+        throw new DataBinderException("Object ${object} cannot be bound to ${prop}", e);
       }
     };
+
 
   read(mirror, object, prop) {
     try {
       return mirror.getField(prop).value.reflectee;
     } on MirroredCompilationError catch(e){
+      throw new DataBinderException("Object ${object} cannot be bound to ${prop}", e);
+    } on FutureUnhandledException catch(e){
       throw new DataBinderException("Object ${object} cannot be bound to ${prop}", e);
     }
   }
@@ -56,6 +61,8 @@ class Reflector {
         return mirror.getField(prop).value.reflectee.toString();
       } on MirroredCompilationError catch(e){
         throw new DataBinderException("Object ${object} cannot be bound to ${prop}", e);
+      } on FutureUnhandledException catch(e){
+        throw new DataBinderException("Object ${object} cannot be bound to ${prop}", e);
       }
     };
 
@@ -65,9 +72,11 @@ class Reflector {
         mirror.setField(prop, sanitizeString(newValue)).value;
       } on MirroredCompilationError catch(e){
         throw new DataBinderException("Object ${object} cannot be bound to ${prop}", e);
+      } on FutureUnhandledException catch(e){
+        throw new DataBinderException("Object ${object} cannot be bound to ${prop}", e);
       }
     };
 
   sanitizeString(str)
-    => new String.fromCharCodes(str.charCodes());
+    => new String.fromCharCodes(str.charCodes);
 }

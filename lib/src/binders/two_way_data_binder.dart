@@ -13,7 +13,7 @@ class TwoWayDataBinder extends BinderBase{
     => reflector.createPropertyHandle(sourceObject, node.propName);
 
   setupModelToViewListener(node, propHandle){
-    var updateViewCallback = (WatchEvent event) => node.value = event.newValue;
+    var updateViewCallback = (ObserverEvent event) => node.value = event.newValue;
     modelObservers.register(propHandle.getter, updateViewCallback);
   }
 

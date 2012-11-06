@@ -19,7 +19,7 @@ class Parser {
   parseSimpleElement(element) {
     var nodes = parseChildrenNodes(element);
     nodes.addAll(parseAttributes(element));
-    return (!nodes.isEmpty()) ? new ElementNode(element, nodes) : null;
+    return (!nodes.isEmpty) ? new ElementNode(element, nodes) : null;
   }
 
   parseChildrenNodes(element)

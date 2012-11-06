@@ -2,6 +2,5 @@ name:  databinder
 description:  Data binding via object mirrors.
 version: 0.1.0
 dependencies:
-  web_components: any
   unittest:
     sdk: unittest

@@ -1,6 +1,5 @@
 library databinder_impl;
 
-import 'package:web_components/watcher.dart';
 import 'dart:html' as h;
 import 'dart:mirrors';
 

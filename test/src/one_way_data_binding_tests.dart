@@ -15,7 +15,7 @@ testOneWayDataBinding() {
       expect(element.text, equals("Hello Dolly!"));
     });
 
-    test("it throws an exception when invalid property", () {
+    test("throws an exception when invalid property", () {
       var person = new Person("Dolly");
       expect(
         () => bind("<div>{{invalid}}</div>", person),

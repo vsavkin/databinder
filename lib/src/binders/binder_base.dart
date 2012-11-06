@@ -12,8 +12,8 @@ abstract class BinderBase {
     domObservers = new DomObservers(this);
   }
 
-  bind(NodeDescriptor n)
-    => n.visit(this);
+  bind(node)
+    => node.visit(this);
 
   unbind(){
     modelObservers.removeAll();

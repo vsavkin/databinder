@@ -34,7 +34,7 @@ class AttributeNode {
 }
 
 class DataBindingNode {
-  final h.Element element;
+  final h.InputElement element;
   final String _propName;
 
   DataBindingNode(this.element, this._propName);
@@ -84,8 +84,8 @@ class TemplateNode{
 
   TemplateNode(this.element);
 
-  bool get isLoop
-    => element.attributes["iterate"];
+//  bool get isLoop
+//    => element.attributes["iterate"];
 
   String get loopVariable
     => element.attributes["iterate"].split(" ")[0];

@@ -31,7 +31,7 @@ main(){
   var binders = [];
 
   bind(e){
-    if(! binders.isEmpty()) return;
+    if(! binders.isEmpty) return;
     binders = elementsToBindTo.map((_) => new DataBinder(_, person));
     binders.forEach((_) => _.bind());
   }
