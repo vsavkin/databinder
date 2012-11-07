@@ -2,28 +2,22 @@ part of databinder_impl;
 
 class ModelObservers {
   List<ModelObserver> registeredObservers = [];
+  Scope scope;
 
-  register(exp, callback){
-    var observer = new ModelObserver(exp, callback)..notify();
+  ModelObservers(this.scope);
+
+  register(ObservableExpression exp, ObserverCallback callback){
+    var observer = new ModelObserver(exp, callback)..dirtyCheck();
     registeredObservers.add(observer);
-  }
-
-  notify(){
-    var iteration = 0;
-    while(notifyObservers()){
-      iteration += 1;
-      if(iteration == 10)
-        throw new ModelObserverException();
-    }
   }
 
   removeAll()
     => registeredObservers = [];
 
-  notifyObservers(){
+  dirtyCheck(){
     var dirty = false;
     for(var obs in registeredObservers){
-      if(obs.notify()){
+      if(obs.dirtyCheck()){
         dirty = true;
       }
     }
@@ -40,12 +34,16 @@ class ObserverEvent {
   ObserverEvent(this.oldValue, this.newValue);
 }
 
+typedef ObservableExpression();
+
+typedef ObserverCallback(ObserverEvent event);
+
 class ModelObserver {
   var exp, callback, lastValue;
 
   ModelObserver(this.exp, this.callback);
 
-  notify(){
+  dirtyCheck(){
     var newValue = exp();
     if (lastValue != newValue) {
       callback(new ObserverEvent(lastValue, newValue));

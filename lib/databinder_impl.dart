@@ -12,8 +12,9 @@ part 'src/reflection/reflector.dart';
 part 'src/parser/parser.dart';
 part 'src/parser/nodes.dart';
 
-part 'src/observers/model_observers.dart';
-part 'src/observers/dom_observers.dart';
+part 'src/scope/model_observers.dart';
+part 'src/scope/dom_observers.dart';
+part 'src/scope/scope.dart';
 
 part 'src/binders/one_way_data_binder.dart';
 part 'src/binders/two_way_data_binder.dart';

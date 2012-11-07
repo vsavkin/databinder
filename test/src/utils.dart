@@ -17,7 +17,7 @@ class Person {
 DataBinder bind(String text, object){
   var element = new Element.html(text);
 
-  var binder = new DataBinder(element, object);
+  var binder = new DataBinder.root(element, object);
   binder.bind();
 
   return binder;

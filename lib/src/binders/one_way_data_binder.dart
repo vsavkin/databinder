@@ -1,7 +1,7 @@
 part of databinder_impl;
 
 class OneWayDataBinder extends BinderBase{
-  OneWayDataBinder(sourceObject) : super(sourceObject);
+  OneWayDataBinder(sourceObject, scope) : super(sourceObject, scope);
 
   visitText(TextNode t)
     => setupBinding(t);
@@ -27,7 +27,7 @@ class OneWayDataBinder extends BinderBase{
 
   setupWatchers(propHandles, updateViewCallback){
     for(var propHandle in propHandles.values){
-      modelObservers.register(propHandle.getter, updateViewCallback);
+      scope.registerModelObserver(propHandle.getter, updateViewCallback);
     }
   }
 }

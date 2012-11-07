@@ -49,7 +49,7 @@ testOneWayDataBinding() {
       var binder = bind("<div>{{name}}</div>", person);
 
       person.name = "Sam";
-      binder.notify();
+      binder.digest();
 
       expect(binder.targetElement.text, equals("Sam"));
     });
@@ -59,7 +59,7 @@ testOneWayDataBinding() {
       var binder = bind("<div greeting='Hi {{name}}!'></div>", person);
 
       person.name = "Sam";
-      binder.notify();
+      binder.digest();
 
       expect(binder.targetElement.attributes['greeting'], equals("Hi Sam!"));
     });
@@ -80,7 +80,7 @@ testOneWayDataBinding() {
       person.name = "Sam";
       binder.unbind();
 
-      binder.notify();
+      binder.digest();
 
       expect(binder.targetElement.text, equals("Hello Dolly!"));
     });

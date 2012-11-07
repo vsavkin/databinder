@@ -21,7 +21,7 @@ testObservers() {
       Observable observable;
 
       setUp((){
-        observers = new ModelObservers();
+        observers = new ModelObservers(new Scope());
         eventCapturer = new EventCapturer();
         observable = new Observable();
       });
@@ -43,7 +43,7 @@ testObservers() {
 
         observable.property += 1;
 
-        observers.notify();
+        observers.dirtyCheck();
 
         expect(eventCapturer.isCalled, isTrue);
       });
@@ -53,7 +53,7 @@ testObservers() {
 
         observable.property += 1;
 
-        observers.notify();
+        observers.dirtyCheck();
 
         expect(eventCapturer.event.oldValue, equals(0));
         expect(eventCapturer.event.newValue, equals(1));
@@ -64,45 +64,9 @@ testObservers() {
 
         eventCapturer.clear();
 
-        observers.notify();
+        observers.dirtyCheck();
 
         expect(eventCapturer.isCalled, isFalse);
-      });
-
-      test("calls the callback till all observable properties stabilize", (){
-        var numberOfCalls = 0;
-
-        var callback = (e){
-          if(observable.property < 5)
-            observable.property += 1;
-
-          numberOfCalls += 1;
-        };
-
-        observers.register(()=> observable.property, callback);
-
-        observable.property += 1;
-
-        observers.notify();
-
-        expect(observable.property, equals(5));
-        expect(numberOfCalls, equals(5));
-      });
-
-      test("raises an exception after 10 iterations", (){
-        var numberOfCalls = 0;
-
-        var callback = (e){
-          observable.property += 1;
-          numberOfCalls += 1;
-        };
-
-        observers.register(()=> observable.property, callback);
-
-        observable.property += 1;
-
-        expect(()=> observers.notify(), throws);
-        expect(numberOfCalls, equals(11));
       });
     });
   });

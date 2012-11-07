@@ -21,7 +21,7 @@ testTwoWayDataBinding() {
       var binder = bind("<input data-bind='value:name'/>", person);
 
       person.name = "Sam";
-      binder.notify();
+      binder.digest();
 
       expect(binder.targetElement.value, equals("Sam"));
     });
@@ -65,7 +65,7 @@ testTwoWayDataBinding() {
       person.name = "Sam";
 
       binder.unbind();
-      binder.notify();
+      binder.digest();
 
       expect(binder.targetElement.value, equals("Dolly"));
     });

@@ -2,9 +2,9 @@ part of databinder_impl;
 
 class DomObservers {
   List<DomObserver> registeredObservers = [];
-  var binder;
+  Scope scope;
 
-  DomObservers(this.binder);
+  DomObservers(this.scope);
 
   register(h.EventListenerList list, h.EventListener listener){
     var observer = new DomObserver(list, listenerWithNotification(listener));
@@ -16,7 +16,7 @@ class DomObservers {
     => registeredObservers.forEach((_) => _.unbind());
 
   listenerWithNotification(listener)
-    => (e){listener(e); binder.notify();};
+    => (e){listener(e); scope.digest();};
 }
 
 class DomObserver {

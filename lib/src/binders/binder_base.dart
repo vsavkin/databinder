@@ -2,26 +2,14 @@ part of databinder_impl;
 
 abstract class BinderBase {
   Reflector reflector = new Reflector();
-  ModelObservers modelObservers;
-  DomObservers domObservers;
+  Scope scope;
 
   var sourceObject;
 
-  BinderBase(this.sourceObject){
-    modelObservers = new ModelObservers();
-    domObservers = new DomObservers(this);
-  }
+  BinderBase(this.sourceObject, this.scope);
 
   bind(node)
     => node.visit(this);
-
-  unbind(){
-    modelObservers.removeAll();
-    domObservers.removeAll();
-  }
-
-  notify()
-    => modelObservers.notify();
 
   visitElement(ElementNode e)
     => e.children.forEach((_) => _.visit(this));

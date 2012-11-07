@@ -6,13 +6,17 @@ class DataBinder {
 
   final h.Element targetElement;
   final sourceObject;
+  Scope scope;
   bool _ran = false;
 
-  DataBinder(this.targetElement, this.sourceObject){
-    _binders.add(new OneWayDataBinder(sourceObject));
-    _binders.add(new TwoWayDataBinder(sourceObject));
-    _binders.add(new DataActionBinder(sourceObject));
+  DataBinder(this.targetElement, this.sourceObject, this.scope){
+    _binders.add(new OneWayDataBinder(sourceObject, scope));
+    _binders.add(new TwoWayDataBinder(sourceObject, scope));
+    _binders.add(new DataActionBinder(sourceObject, scope));
   }
+
+  DataBinder.root(targetElement, sourceObject):
+    this(targetElement, sourceObject, new Scope());
 
   void bind() {
     if(_ran) throw new DataBinderException("Bind cannot be called multiple times");
@@ -24,8 +28,8 @@ class DataBinder {
   }
 
   void unbind()
-    => _binders.forEach((_) => _.unbind());
+    => scope.destroy();
 
-  void notify()
-    => _binders.forEach((_) => _.notify());
+  void digest()
+    => scope.digest();
 }

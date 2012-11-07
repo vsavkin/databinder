@@ -6,7 +6,8 @@ import 'package:databinder/databinder_impl.dart';
 
 import 'dart:html';
 
-part 'src/observers/model_observers_test.dart';
+part 'src/scope/model_observers_test.dart';
+part 'src/scope/scope_test.dart';
 part 'src/one_way_data_binding_tests.dart';
 part 'src/two_way_data_binding_tests.dart';
 part 'src/action_binders_tests.dart';
@@ -16,6 +17,7 @@ main(){
   useHtmlEnhancedConfiguration();
 
   testObservers();
+  testScope();
   testOneWayDataBinding();
   testTwoWayDataBinding();
   testActionBinders();
