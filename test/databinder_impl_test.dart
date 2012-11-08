@@ -8,6 +8,7 @@ import 'dart:html';
 
 part 'src/scope/model_observers_test.dart';
 part 'src/scope/scope_test.dart';
+part 'src/parser/nodes_tests.dart';
 part 'src/one_way_data_binding_tests.dart';
 part 'src/two_way_data_binding_tests.dart';
 part 'src/action_binders_tests.dart';
@@ -18,6 +19,7 @@ main(){
 
   testObservers();
   testScope();
+  testNodes();
   testOneWayDataBinding();
   testTwoWayDataBinding();
   testActionBinders();

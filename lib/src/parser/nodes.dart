@@ -39,8 +39,15 @@ class DataBindingNode {
 
   DataBindingNode(this.element, this._propName);
 
-  String get propName
-    => _propName.substring(6);
+  String get propName {
+    var parts = _propName.split(":");
+    return parts.length > 1 ? parts[1] : parts[0];
+  }
+
+  String get type {
+    var parts = _propName.split(":");
+    return parts.length > 1 ? parts[0] : null;
+  }
 
   String get value
     => element.value;
