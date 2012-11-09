@@ -25,8 +25,8 @@ class ModelObservers {
   }
 }
 
-class ModelObserverException extends RuntimeError {
-  ModelObserverException() : super("Models cannot be stabilized");
+class ModelObserverException extends DataBinderException {
+  ModelObserverException() : super("ModelObserver: Models cannot be stabilized");
 }
 
 class ObserverEvent {

@@ -1,8 +1,18 @@
 part of databinder_test;
 
+class Address {
+  String street;
+
+  Address(this.street);
+
+  uppercase(e)
+    => street = street.toUpperCase();
+}
+
 class Person {
   String name;
   int age;
+  Address address;
 
   Person(this.name, [this.age]);
 

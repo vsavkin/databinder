@@ -6,14 +6,19 @@ import 'package:databinder/databinder_impl.dart';
 
 import 'dart:html';
 
-part 'src/scope/model_observers_test.dart';
-part 'src/scope/scope_test.dart';
-part 'src/scope/transformations_test.dart';
+part 'src/utils.dart';
+
+part 'src/scope/model_observers_tests.dart';
+part 'src/scope/scope_tests.dart';
+part 'src/scope/transformations_tests.dart';
+
 part 'src/parser/nodes_tests.dart';
+
+part 'src/reflection/reflector_tests.dart';
+
 part 'src/one_way_data_binding_tests.dart';
 part 'src/two_way_data_binding_tests.dart';
 part 'src/action_binders_tests.dart';
-part 'src/utils.dart';
 
 main(){
   useHtmlEnhancedConfiguration();
@@ -22,6 +27,7 @@ main(){
   testScope();
   testNodes();
   testTransformations();
+  testReflector();
   testOneWayDataBinding();
   testTwoWayDataBinding();
   testActionBinders();

@@ -1,7 +1,10 @@
 part of databinder_impl;
 
 class DataBinderException implements Exception {
-  final exception;
+  final source;
   final message;
-  const DataBinderException(this.message, [this.exception]);
+
+  const DataBinderException(this.message, [this.source]);
+
+  String toString() => "DataBinderException: $message";
 }
