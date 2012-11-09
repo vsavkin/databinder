@@ -13,8 +13,6 @@ class PropertyHandle {
 class Reflector {
   PropertyHandle createPropertyHandle(object, String prop) {
     var mirror = reflect(object);
-    prop = sanitizeString(prop);
-
     var getter = getter(mirror, object, prop);
     var setter = setter(mirror, object, prop);
     return new PropertyHandle(getter, setter);
@@ -22,13 +20,11 @@ class Reflector {
 
   createCallback(object, String method){
     var mirror = reflect(object);
-    method = sanitizeString(method);
     return methodCall(mirror, object, method);
   }
 
   readProperty(object, String prop){
     var mirror = reflect(object);
-    prop = sanitizeString(prop);
     return read(mirror, object, prop);
   }
 
@@ -40,7 +36,7 @@ class Reflector {
       } on MirroredCompilationError catch(e){
         throw new DataBinderException("Method ${method} cannot be called on ${object}", e);
       } on FutureUnhandledException catch(e){
-        throw new DataBinderException("Object ${object} cannot be bound to ${prop}", e);
+        throw new DataBinderException("Object ${object} cannot be bound to ${method}", e);
       }
     };
 
@@ -58,7 +54,7 @@ class Reflector {
   getter(mirror, object, prop)
     => (){
       try{
-        return mirror.getField(prop).value.reflectee.toString();
+        return mirror.getField(prop).value.reflectee;
       } on MirroredCompilationError catch(e){
         throw new DataBinderException("Object ${object} cannot be bound to ${prop}", e);
       } on FutureUnhandledException catch(e){
@@ -69,14 +65,11 @@ class Reflector {
   setter(mirror, object, prop)
     => (newValue){
       try{
-        mirror.setField(prop, sanitizeString(newValue)).value;
+        mirror.setField(prop, newValue).value;
       } on MirroredCompilationError catch(e){
         throw new DataBinderException("Object ${object} cannot be bound to ${prop}", e);
       } on FutureUnhandledException catch(e){
         throw new DataBinderException("Object ${object} cannot be bound to ${prop}", e);
       }
     };
-
-  sanitizeString(str)
-    => new String.fromCharCodes(str.charCodes);
 }

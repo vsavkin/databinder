@@ -13,15 +13,20 @@ class TwoWayDataBinder extends BinderBase{
     => reflector.createPropertyHandle(sourceObject, node.propName);
 
   setupModelToViewListener(node, propHandle){
-    var updateViewCallback = (ObserverEvent event) => node.value = event.newValue;
+    var t = scope.transformation(node.type);
+    var updateViewCallback = (ObserverEvent event) => node.value = t.modelToView(event.newValue);
     scope.registerModelObserver(propHandle.getter, updateViewCallback);
   }
 
   setupViewToModelListener(node, propHandle){
-    var updateModelCallback = (_) => propHandle.setter(node.value);
+    var t = scope.transformation(node.type);
+    var updateModelCallback = (_) => propHandle.setter(t.viewToModel(node.value));
 
-    //TODO: check the type of the element to attach right events
-    scope.registerDomObserver(node.element.on.input, updateModelCallback);
-    scope.registerDomObserver(node.element.on.keyDown, updateModelCallback);
+    if(node.isCheckbox || node.isRadio){
+      scope.registerDomObserver(node.element.on.change, updateModelCallback);
+    } else {
+      scope.registerDomObserver(node.element.on.input, updateModelCallback);
+      scope.registerDomObserver(node.element.on.keyDown, updateModelCallback);
+    }
   }
 }

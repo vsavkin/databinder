@@ -16,6 +16,12 @@ testTwoWayDataBinding() {
       expect(element.value, equals("Dolly"));
     });
 
+    test("sets the value from the bound object (with types)", () {
+      var person = new Person("Dolly", 99);
+      var element = boundElement("<input data-bind='int:age'/>", person);
+      expect(element.value, equals("99"));
+    });
+
     test("updates the bound property when object changes", () {
       var person = new Person("Dolly");
       var binder = bind("<input data-bind='value:name'/>", person);
@@ -42,6 +48,16 @@ testTwoWayDataBinding() {
       element.on.change.dispatch(new Event("input"));
 
       expect(person.name, equals("Sam"));
+    });
+
+    test("updates the bound object when the fields gets updated (with types)", () {
+      var person = new Person("Dolly", 99);
+      var element = boundElement("<input data-bind='int:age'/>", person);
+
+      element.value = "100";
+      element.on.change.dispatch(new Event("input"));
+
+      expect(person.age, equals(100));
     });
 
     test("updates all model listeners after a DOM event has been processed", () {
@@ -81,8 +97,8 @@ testTwoWayDataBinding() {
       expect(person.name, equals("Dolly"));
     });
 
-
-// exception in a callback, figure out how to test it
+//
+//exception in a callback, figure out how to test it
 //    test("non-string fields", () {
 //      var person = new Person("Dolly", 99);
 //      var element = bind("<input data-bind='value:age'/>", person);

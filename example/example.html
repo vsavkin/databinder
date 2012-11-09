@@ -25,13 +25,19 @@
     <div class="control-group">
       <span class="control-label">First name</span>
 
-      <div class="controls">{{firstName}}</div>
+      <div class="controls">{{name}}</div>
     </div>
 
     <div class="control-group">
-      <span class="control-label">Last name</span>
+      <span class="control-label">Married</span>
 
-      <div class="controls">{{lastName}}</div>
+      <div class="controls">{{married}}</div>
+    </div>
+
+    <div class="control-group">
+      <span class="control-label">Language</span>
+
+      <div class="controls">{{language}}</div>
     </div>
   </fieldset>
 
@@ -41,11 +47,12 @@
 HTML:
 &lt;fieldset id=&quot;one-way&quot;&gt;
   First name {{firstName}}
-  Last name {{lastName}}
+  Married {{married}}
+  Language {{language}}
 &lt;/fieldset&gt;
 
 DART:
-var person = new Person("Jim", "Smith");
+var person = new Person("Jim", "English", false);
 var element = query("#one-way");
 var binder = new DataBinder(element, person);
 binder.bind();
@@ -63,30 +70,49 @@ binder.unbind();
 <div class="well well-large block">
   <h2>Two-way data binding</h2>
 
-  <fieldset class="form-horizontal" id="two-way-form-1">
-    <div class="control-group">
-      <span class="control-label">First name</span>
+  <form>
+    <fieldset class="form-horizontal" id="two-way-form-1">
+      <div class="control-group">
+        <span class="control-label">First name</span>
 
-      <div class="controls"><input data-bind="value:firstName"/></div>
-    </div>
+        <div class="controls"><input data-bind="value:name"/></div>
+      </div>
 
-    <div class="control-group">
-      <span class="control-label">Last name</span>
+      <div class="control-group">
+        <span class="control-label">Married</span>
+        <div class="controls"><input type="checkbox" data-bind="bool:married"/></div>
+      </div>
 
-      <div class="controls"><input data-bind="value:lastName"/></div>
-    </div>
-  </fieldset>
+      <div class="control-group">
+        <span class="control-label">Language</span>
+        <div class="controls">
+          <input type="radio" name="language" value="English" data-bind="value:language"> English<br>
+          <input type="radio" name="language" value="French" data-bind="value:language"> French <br>
+          <input type="radio" name="language" value="Russian" data-bind="value:language"> Russian
+        </div>
+      </div>
+    </fieldset>
+  </form>
 
   <h5>Implementation:</h5>
 <pre>
 HTML:
 &lt;fieldset id=&quot;two-way-form-1&quot;&gt;
-  First name &lt;input data-bind=&quot;value:firstName&quot;/&gt;
-  Last name &lt;input data-bind=&quot;value:lastName&quot;/&gt;
+
+First name
+&lt;input data-bind=&quot;value:firstName&quot;/&gt;
+Married
+&lt;input type=&quot;checkbox&quot; data-bind=&quot;bool:married&quot;/&gt;
+
+Language
+&lt;input type=&quot;radio&quot; name=&quot;language&quot; value=&quot;English&quot; data-bind=&quot;value:language&quot;&gt; English
+&lt;input type=&quot;radio&quot; name=&quot;language&quot; value=&quot;French&quot; data-bind=&quot;value:language&quot;&gt; French
+&lt;input type=&quot;radio&quot; name=&quot;language&quot; value=&quot;Russian&quot; data-bind=&quot;value:language&quot;&gt; Russian
+
 &lt;/fieldset&gt;
 
 DART:
-var person = new Person("Jim", "Smith");
+var person = new Person("Jim", "English", false);
 var element = query("#two-way-form-1");
 var binder = new DataBinder(element, person);
 binder.bind();
@@ -99,30 +125,49 @@ binder.unbind();
 <div class="well well-large block">
   <h2>Two-way data binding</h2>
 
-  <fieldset class="form-horizontal" id="two-way-form-2">
-    <div class="control-group">
-      <span class="control-label">First name</span>
+  <form>
+    <fieldset class="form-horizontal" id="two-way-form-2">
+      <div class="control-group">
+        <span class="control-label">First name</span>
 
-      <div class="controls"><input data-bind="value:firstName"/></div>
-    </div>
+        <div class="controls"><input data-bind="value:name"/></div>
+      </div>
 
-    <div class="control-group">
-      <span class="control-label">Last name</span>
+      <div class="control-group">
+        <span class="control-label">Married</span>
+        <div class="controls"><input type="checkbox" data-bind="bool:married"/></div>
+      </div>
 
-      <div class="controls"><input data-bind="value:lastName"/></div>
-    </div>
-  </fieldset>
+      <div class="control-group">
+        <span class="control-label">Language</span>
+        <div class="controls">
+          <input type="radio" name="language" value="English" data-bind="value:language"> English<br>
+          <input type="radio" name="language" value="French" data-bind="value:language"> French <br>
+          <input type="radio" name="language" value="Russian" data-bind="value:language"> Russian
+        </div>
+      </div>
+    </fieldset>
+  </form>
 
   <h5>Implementation:</h5>
 <pre>
 HTML:
 &lt;fieldset id=&quot;two-way-form-2&quot;&gt;
-  First name &lt;input data-bind=&quot;value:firstName&quot;/&gt;
-  Last name &lt;input data-bind=&quot;value:lastName&quot;/&gt;
+
+First name
+&lt;input data-bind=&quot;value:firstName&quot;/&gt;
+Married
+&lt;input type=&quot;checkbox&quot; data-bind=&quot;bool:married&quot;/&gt;
+
+Language
+&lt;input type=&quot;radio&quot; name=&quot;language&quot; value=&quot;English&quot; data-bind=&quot;value:language&quot;&gt; English
+&lt;input type=&quot;radio&quot; name=&quot;language&quot; value=&quot;French&quot; data-bind=&quot;value:language&quot;&gt; French
+&lt;input type=&quot;radio&quot; name=&quot;language&quot; value=&quot;Russian&quot; data-bind=&quot;value:language&quot;&gt; Russian
+
 &lt;/fieldset&gt;
 
 DART:
-var person = new Person("Jim", "Smith");
+var person = new Person("Jim", "English", false);
 var element = query("#two-way-form-2");
 var binder = new DataBinder(element, person);
 binder.bind();
@@ -130,6 +175,7 @@ binder.bind();
 TO UNBIND:
 binder.unbind();
 </pre>
+
 </div>
 
 <div style="clear: both;"/>
@@ -151,22 +197,22 @@ HTML:
 
 DART:
 class Person {
-  String firstName, lastName;
+  String name;
+  String language;
+  bool married;
 
-  Person(this.firstName, this.lastName);
+  Person(this.name, this.language, this.married);
 
   toUpperCase(e){
-    firstName = firstName.toUpperCase();
-    lastName = lastName.toUpperCase();
+    name = name.toUpperCase();
   }
 
   toLowerCase(e){
-    firstName = firstName.toLowerCase();
-    lastName = lastName.toLowerCase();
+    name = name.toLowerCase();
   }
 }
 
-var person = new Person("Jim", "Smith");
+var person = new Person("Jim", "English", false);
 var element = query("#action");
 var binder = new DataBinder(element, person);
 binder.bind();

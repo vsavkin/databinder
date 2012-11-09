@@ -2,24 +2,24 @@ import 'package:databinder/databinder.dart';
 import 'dart:html';
 
 class Person {
-  String firstName, lastName;
+  String name;
+  String language;
+  bool married;
 
-  Person(this.firstName, this.lastName);
+  Person(this.name, this.language, this.married);
 
   toUpperCase(e){
-    firstName = firstName.toUpperCase();
-    lastName = lastName.toUpperCase();
+    name = name.toUpperCase();
   }
 
   toLowerCase(e){
-    firstName = firstName.toLowerCase();
-    lastName = lastName.toLowerCase();
+    name = name.toLowerCase();
   }
 }
 
 main(){
   //create a singleton object
-  var person = new Person("Jim", "Smith");
+  var person = new Person("Jim", "English", false);
 
   //find all elements we are going to bind to
   var twoWayForm1 = query("#two-way-form-1");

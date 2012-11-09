@@ -14,6 +14,7 @@ part 'src/parser/nodes.dart';
 
 part 'src/scope/model_observers.dart';
 part 'src/scope/dom_observers.dart';
+part 'src/scope/transformations.dart';
 part 'src/scope/scope.dart';
 
 part 'src/binders/one_way_data_binder.dart';

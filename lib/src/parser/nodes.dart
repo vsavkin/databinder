@@ -49,11 +49,31 @@ class DataBindingNode {
     return parts.length > 1 ? parts[0] : null;
   }
 
-  String get value
-    => element.value;
+  String get value {
+    if(isCheckbox){
+      return element.checked.toString();
+    } else if (isRadio) {
+      return element.value;
+    } else {
+      return element.value;
+    }
+  }
 
-  set value(newValue)
-    => element.value = newValue.toString();
+  set value(String newValue){
+    if(isCheckbox){
+      element.checked = newValue == "true";
+    } else if (isRadio) {
+      element.checked = element.value == newValue;
+    } else {
+      element.value = newValue;
+    }
+  }
+
+  bool get isCheckbox
+    => element.type == "checkbox";
+
+  bool get isRadio
+    => element.type == "radio";
 
   void visit(visitor)
     => visitor.visitDataBinding(this);
