@@ -3,14 +3,14 @@ part of databinder_test;
 testNodes() {
   group("nodes", () {
     group("DataBindingNode", (){
-      test("returns propName", (){
-        var n = new DataBindingNode(null, "something:propName");
-        expect(n.propName, equals("propName"));
+      test("returns pathExpression", (){
+        var n = new DataBindingNode(null, "something:pathExpression");
+        expect(n.pathExpression, equals("pathExpression"));
       });
 
-      test("returns propName when no type", (){
-        var n = new DataBindingNode(null, "propName");
-        expect(n.propName, equals("propName"));
+      test("returns pathExpression when no type", (){
+        var n = new DataBindingNode(null, "pathExpression");
+        expect(n.pathExpression, equals("pathExpression"));
       });
 
       test("returns type", (){

@@ -52,7 +52,8 @@
 <pre>
 HTML:
 &lt;fieldset id=&quot;one-way&quot;&gt;
-  First name {{firstName}}
+  First name {{name}}
+  Name length {{name.length}}
   Married {{married}}
   Language {{language}}
 &lt;/fieldset&gt;
@@ -106,7 +107,7 @@ HTML:
 &lt;fieldset id=&quot;two-way-form-1&quot;&gt;
 
 First name
-&lt;input data-bind=&quot;value:firstName&quot;/&gt;
+&lt;input data-bind=&quot;value:name&quot;/&gt;
 Married
 &lt;input type=&quot;checkbox&quot; data-bind=&quot;bool:married&quot;/&gt;
 
@@ -161,7 +162,7 @@ HTML:
 &lt;fieldset id=&quot;two-way-form-2&quot;&gt;
 
 First name
-&lt;input data-bind=&quot;value:firstName&quot;/&gt;
+&lt;input data-bind=&quot;value:name&quot;/&gt;
 Married
 &lt;input type=&quot;checkbox&quot; data-bind=&quot;bool:married&quot;/&gt;
 

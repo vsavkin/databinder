@@ -16,9 +16,9 @@ part 'src/parser/nodes_tests.dart';
 
 part 'src/reflection/reflector_tests.dart';
 
-part 'src/one_way_data_binding_tests.dart';
-part 'src/two_way_data_binding_tests.dart';
-part 'src/action_binders_tests.dart';
+part 'src/binders/one_way_data_binding_tests.dart';
+part 'src/binders/two_way_data_binding_tests.dart';
+part 'src/binders/action_binders_tests.dart';
 
 main(){
   useHtmlEnhancedConfiguration();

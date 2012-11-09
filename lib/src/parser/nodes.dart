@@ -2,9 +2,9 @@ part of databinder_impl;
 
 class TextNode {
   final h.Text node;
-  final List<String> boundNames;
+  final List<String> pathExpressions;
 
-  TextNode(this.node, this.boundNames);
+  TextNode(this.node, this.pathExpressions);
 
   String get value
     => node.text;
@@ -19,9 +19,9 @@ class TextNode {
 class AttributeNode {
   final h.Element element;
   final String attrName;
-  final List<String> boundNames;
+  final List<String> pathExpressions;
 
-  AttributeNode(this.element, this.attrName, this.boundNames);
+  AttributeNode(this.element, this.attrName, this.pathExpressions);
 
   String get value
     => element.attributes[attrName];
@@ -35,17 +35,17 @@ class AttributeNode {
 
 class DataBindingNode {
   final h.InputElement element;
-  final String _propName;
+  final String _expValue;
 
-  DataBindingNode(this.element, this._propName);
+  DataBindingNode(this.element, this._expValue);
 
-  String get propName {
-    var parts = _propName.split(":");
+  String get pathExpression {
+    var parts = _expValue.split(":");
     return parts.length > 1 ? parts[1] : parts[0];
   }
 
   String get type {
-    var parts = _propName.split(":");
+    var parts = _expValue.split(":");
     return parts.length > 1 ? parts[0] : null;
   }
 
@@ -81,15 +81,15 @@ class DataBindingNode {
 
 class DataActionNode {
   final h.Element element;
-  final String expression;
+  final String _expValue;
 
-  DataActionNode(this.element, this.expression);
+  DataActionNode(this.element, this._expValue);
 
   String get eventName
-    => expression.split(":")[0];
+    => _expValue.split(":")[0];
 
-  String get methodName
-    => expression.split(":")[1];
+  String get pathExpression
+    => _expValue.split(":")[1];
 
   void visit(visitor)
     => visitor.visitDataAction(this);

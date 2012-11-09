@@ -20,7 +20,7 @@ class Reflector {
 
   methodCall(object, exp) {
     return (e) {
-      wrapExceptions(() {
+      wrapExceptions(exp, () {
         var receiver = extractReceiver(object, exp);
         var mirror = reflect(receiver);
         mirror.invoke(exp.propertyPart, [reflect(e)]).value;
@@ -29,7 +29,7 @@ class Reflector {
   }
 
   read(object, exp) {
-    return wrapExceptions(() {
+    return wrapExceptions(exp, () {
       var receiver = extractReceiver(object, exp);
       return prop(receiver, exp.propertyPart);
     });
@@ -37,7 +37,7 @@ class Reflector {
 
   getter(object, exp) {
     return () {
-      return wrapExceptions(() {
+      return wrapExceptions(exp, () {
         var receiver = extractReceiver(object, exp);
         return prop(receiver, exp.propertyPart);
       });
@@ -46,7 +46,7 @@ class Reflector {
 
   setter(object, exp) {
     return (newValue) {
-      wrapExceptions(() {
+      wrapExceptions(exp, () {
         var receiver = extractReceiver(object, exp);
         var mirror = reflect(receiver);
         mirror.setField(exp.propertyPart, newValue).value;
@@ -60,11 +60,11 @@ class Reflector {
   prop(object, prop)
     => reflect(object).getField(prop).value.reflectee;
 
-  wrapExceptions(function) {
+  wrapExceptions(exp, function) {
     try {
       return function();
     } on FutureUnhandledException catch(e) {
-      throw new DataBinderException(e.source.message, e);
+      throw new DataBinderException("${exp.fullExpression}  =>  ${e.source.message}", e);
     }
   }
 }
@@ -80,13 +80,13 @@ class PropertyHandle {
 }
 
 class PathExpression {
-  String exp;
+  String fullExpression;
 
-  PathExpression(this.exp);
+  PathExpression(this.fullExpression);
 
   List<String> get receiverParts => parts.getRange(0, parts.length - 1);
 
   String get propertyPart => parts.last;
 
-  List<String> get parts => exp.split(".");
+  List<String> get parts => fullExpression.split(".");
 }

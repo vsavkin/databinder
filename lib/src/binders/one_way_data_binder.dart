@@ -10,7 +10,7 @@ class OneWayDataBinder extends BinderBase{
     => setupBinding(a);
 
   setupBinding(node){
-    var propHandles = buildPropertyHandles(node.boundNames);
+    var propHandles = buildPropertyHandles(node.pathExpressions);
     var dynamicValue = buildDynamicValue(node.value, propHandles);
     var updateViewCallback = (_) => node.value = dynamicValue();
     setupWatchers(propHandles, updateViewCallback);
@@ -50,7 +50,7 @@ class DynamicValueBuilder{
 
     for(var i in matches){
       parts.add(str.substring(lastEnd, i.start));
-      parts.add(new _BoundName(i.group(1)));
+      parts.add(new _BoundExpression(i.group(1)));
       lastEnd = i.end;
     }
     parts.add(str.substring(lastEnd, str.length));
@@ -65,7 +65,7 @@ class DynamicValueBuilder{
         if(p is String){
           res.add(p);
         } else {
-          res.add(handles[p.name].getter());
+          res.add(handles[p.exp].getter());
         }
       }
       return res.toString();
@@ -73,7 +73,7 @@ class DynamicValueBuilder{
   }
 }
 
-class _BoundName {
-  final String name;
-  _BoundName(this.name);
+class _BoundExpression {
+  final String exp;
+  _BoundExpression(this.exp);
 }

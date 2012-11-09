@@ -10,7 +10,7 @@ class TwoWayDataBinder extends BinderBase{
   }
 
   createPropertyHandle(node)
-    => reflector.createPropertyHandle(sourceObject, node.propName);
+    => reflector.createPropertyHandle(sourceObject, node.pathExpression);
 
   setupModelToViewListener(node, propHandle){
     var t = scope.transformation(node.type);
