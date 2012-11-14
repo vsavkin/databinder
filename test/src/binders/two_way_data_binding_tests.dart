@@ -5,25 +5,25 @@ testTwoWayDataBinding() {
   group("two-way data binding", () {
 
     test("does nothing when no bindings", () {
-      var person = new Person("Dolly");
+      var person = new Person();
       var element = boundElement("<input/>", person);
       expect(element.value, equals(""));
     });
 
     test("sets the value from the bound object", () {
-      var person = new Person("Dolly");
+      var person = new Person(name: "Dolly");
       var element = boundElement("<input data-bind='value:name'/>", person);
       expect(element.value, equals("Dolly"));
     });
 
     test("sets the value from the bound object (with types)", () {
-      var person = new Person("Dolly", 99);
+      var person = new Person(age: 99);
       var element = boundElement("<input data-bind='int:age'/>", person);
       expect(element.value, equals("99"));
     });
 
     test("updates the bound property when object changes", () {
-      var person = new Person("Dolly");
+      var person = new Person(name: "Dolly");
       var binder = bind("<input data-bind='value:name'/>", person);
 
       person.name = "Sam";
@@ -33,7 +33,7 @@ testTwoWayDataBinding() {
     });
 
     test("works with child nodes", () {
-      var person = new Person("Dolly");
+      var person = new Person(name: "Dolly");
       var element = boundElement("<div><input data-bind='value:name' id='child'/></div>", person);
       var child = element.query("#child");
 
@@ -41,7 +41,7 @@ testTwoWayDataBinding() {
     });
 
     test("updates the bound object when the fields gets updated", () {
-      var person = new Person("Dolly");
+      var person = new Person(name: "Dolly");
       var element = boundElement("<input data-bind='value:name'/>", person);
 
       element.value = "Sam";
@@ -51,7 +51,7 @@ testTwoWayDataBinding() {
     });
 
     test("updates the bound object when the fields gets updated (with types)", () {
-      var person = new Person("Dolly", 99);
+      var person = new Person(age: 99);
       var element = boundElement("<input data-bind='int:age'/>", person);
 
       element.value = "100";
@@ -61,7 +61,7 @@ testTwoWayDataBinding() {
     });
 
     test("updates all model listeners after a DOM event has been processed", () {
-      var person = new Person("Dolly");
+      var person = new Person(name: "Dolly");
       var html = "<div><input data-bind='value:name' id='el1'/><input data-bind='value:name' id='el2'/></div>";
 
       var element = boundElement(html, person);
@@ -75,7 +75,7 @@ testTwoWayDataBinding() {
     });
 
     test("unbinds models watchers", () {
-      var person = new Person("Dolly");
+      var person = new Person(name: "Dolly");
       var binder = bind("<input data-bind='value:name'/>", person);
 
       person.name = "Sam";
@@ -87,7 +87,7 @@ testTwoWayDataBinding() {
     });
 
     test("unbinds DOM watchers", () {
-      var person = new Person("Dolly");
+      var person = new Person(name: "Dolly");
       var binder = bind("<input data-bind='value:name'/>", person);
       binder.unbind();
 

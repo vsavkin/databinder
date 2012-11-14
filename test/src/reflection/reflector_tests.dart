@@ -8,7 +8,7 @@ testReflector() {
 
       setUp((){
         reflector = new Reflector();
-        person = new Person("value");
+        person = new Person(name: "value");
         person.address = new Address("street");
       });
 
@@ -35,7 +35,7 @@ testReflector() {
 
       setUp((){
         reflector = new Reflector();
-        person = new Person("value", 10);
+        person = new Person(age: 10);
       });
 
       test("creates a callback", () {
@@ -85,7 +85,7 @@ testReflector() {
 
       setUp((){
         reflector = new Reflector();
-        person = new Person("value");
+        person = new Person(name: "value");
       });
 
       test("read the specified property", () {

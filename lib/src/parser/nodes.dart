@@ -111,14 +111,8 @@ class TemplateNode{
 
   TemplateNode(this.element);
 
-//  bool get isLoop
-//    => element.attributes["iterate"];
-
-  String get loopVariable
-    => element.attributes["iterate"].split(" ")[0];
-
-  String get propName
-    => element.attributes["iterate"].split(" ")[2];
+  String get ifExpression
+    => element.attributes["data-if"];
 
   void visit(visitor)
     => visitor.visitTemplate(this);

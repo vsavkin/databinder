@@ -13,8 +13,9 @@ class Person {
   String name;
   int age;
   Address address;
+  bool married;
 
-  Person(this.name, [this.age]);
+  Person({this.name, this.age, this.married});
 
   doubleAge(e)
     => age = age * 2;
