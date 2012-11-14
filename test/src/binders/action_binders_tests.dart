@@ -5,7 +5,7 @@ testActionBinders() {
   group("action binders", () {
 
     test("does nothing when nothing is bound", () {
-      var person = new Person("Dolly", 50);
+      var person = new Person(age: 50);
       var element = boundElement("<button/>", person);
       element.on.click.dispatch(new Event("click"));
 
@@ -13,7 +13,7 @@ testActionBinders() {
     });
 
     test("calls the specified method on the bound object", () {
-      var person = new Person("Dolly", 50);
+      var person = new Person(age: 50);
       var element = boundElement("<button data-action='click:doubleAge'/>", person);
       element.on.click.dispatch(new Event("click"));
 
@@ -21,7 +21,7 @@ testActionBinders() {
     });
 
     test("unbinds", () {
-      var person = new Person("Dolly", 50);
+      var person = new Person(age: 50);
       var binder = bind("<button data-action='click:doubleAge'/>", person);
       binder.unbind();
 

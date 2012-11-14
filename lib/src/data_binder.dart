@@ -13,6 +13,7 @@ class DataBinder {
     _binders.add(new OneWayDataBinder(sourceObject, scope));
     _binders.add(new TwoWayDataBinder(sourceObject, scope));
     _binders.add(new DataActionBinder(sourceObject, scope));
+    _binders.add(new ConditionalsBinder(sourceObject, scope));
   }
 
   DataBinder.root(targetElement, sourceObject):

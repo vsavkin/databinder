@@ -17,8 +17,9 @@ part 'src/scope/dom_observers.dart';
 part 'src/scope/transformations.dart';
 part 'src/scope/scope.dart';
 
+part 'src/binders/binder_base.dart';
 part 'src/binders/one_way_data_binder.dart';
 part 'src/binders/two_way_data_binder.dart';
 part 'src/binders/data_action_binder.dart';
-part 'src/binders/binder_base.dart';
+part 'src/binders/conditionals_binder.dart';
 

@@ -1,6 +1,7 @@
 library databinder_test;
 
 import 'package:unittest/unittest.dart';
+import 'package:unittest/mock.dart';
 import 'package:unittest/html_enhanced_config.dart';
 import 'package:databinder/databinder_impl.dart';
 
@@ -19,6 +20,7 @@ part 'src/reflection/reflector_tests.dart';
 part 'src/binders/one_way_data_binding_tests.dart';
 part 'src/binders/two_way_data_binding_tests.dart';
 part 'src/binders/action_binders_tests.dart';
+part 'src/binders/conditionals_tests.dart';
 
 main(){
   useHtmlEnhancedConfiguration();
@@ -31,4 +33,5 @@ main(){
   testOneWayDataBinding();
   testTwoWayDataBinding();
   testActionBinders();
+  testConditionals();
 }
