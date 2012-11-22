@@ -3,26 +3,65 @@ part of databinder_test;
 class MockModelObservers extends Mock implements ModelObservers {
 }
 
+class MockScope extends Mock implements Scope {
+}
+
 testScope() {
   group("scope", () {
     Scope scope;
 
-    setUp(() {
-      scope = new Scope();
-      scope.modelObservers = new MockModelObservers();
+    group("digesting", () {
+      setUp(() {
+        scope = new Scope();
+        scope.modelObservers = new MockModelObservers();
+      });
+
+      test("calls the callback till all observable properties stabilize", () {
+        scope.modelObservers.when(callsTo('dirtyCheck')).thenReturn(true, 9);
+        scope.modelObservers.when(callsTo('dirtyCheck')).thenReturn(false, 1);
+
+        scope.digest();
+      });
+
+      test("calls dirtyCheck on children", () {
+        var mockScope = new MockScope();
+        scope.children = [mockScope];
+
+        scope.modelObservers.when(callsTo('dirtyCheck')).thenReturn(false, 2);
+        mockScope.when(callsTo('dirtyCheck')).thenReturn(true);
+        mockScope.when(callsTo('dirtyCheck')).thenReturn(false);
+
+        scope.digest();
+      });
+
+      test("raises an exception after 10 iterations", () {
+        scope.modelObservers.when(callsTo('dirtyCheck')).thenReturn(true, 10);
+
+        expect(() => scope.digest(), throws);
+      });
     });
 
-    test("calls the callback till all observable properties stabilize", () {
-      scope.modelObservers.when(callsTo('dirtyCheck')).thenReturn(true, 9);
-      scope.modelObservers.when(callsTo('dirtyCheck')).thenReturn(false, 1);
+    group("createChild", () {
+      setUp(() {
+        scope = new Scope();
+      });
 
-      scope.digest();
-    });
+      test("has all the transformations of the parent", () {
+        var child = scope.createChild();
+        expect(child.transformations.length, equals(scope.transformations.length));
+      });
 
-    test("raises an exception after 10 iterations", () {
-      scope.modelObservers.when(callsTo('dirtyCheck')).thenReturn(true, 10);
+      test("has no observers", () {
+        var child = scope.createChild();
+        expect(child.domObservers.isEmpty, isTrue);
+        expect(child.modelObservers.isEmpty, isTrue);
+      });
 
-      expect(() => scope.digest(), throws);
+      test("changing transformations of a child shound't affect the parent", () {
+        var child = scope.createChild();
+        child.transformations.clear();
+        expect(scope.transformations.length, isNot(equals(0)));
+      });
     });
   });
 }

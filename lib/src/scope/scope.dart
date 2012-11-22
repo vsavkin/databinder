@@ -4,11 +4,12 @@ class Scope {
   ModelObservers modelObservers;
   DomObservers domObservers;
   Transformations transformations;
+  List<Scope> children = [];
 
-  Scope(){
+  Scope({Transformations transformations}){
     modelObservers = new ModelObservers(this);
     domObservers = new DomObservers(this);
-    transformations = new Transformations.standard();
+    this.transformations = (?transformations) ? transformations : new Transformations.standard();
   }
 
   registerModelObserver(ObservableExpression exp, ObserverCallback callback)
@@ -30,10 +31,20 @@ class Scope {
 
   digest(){
     var iteration = 0;
-    while(modelObservers.dirtyCheck()){
+    while(dirtyCheck()){
       iteration += 1;
-      if(iteration == 10)
-        throw new ModelObserverException();
+      if(iteration == 10) throw new ModelObserverException();
     }
+  }
+
+  dirtyCheck(){
+    bool localObserversDirty = modelObservers.dirtyCheck();
+    return children.reduce(localObserversDirty, (memo, curr) => memo || curr.dirtyCheck());
+  }
+
+  createChild(){
+    var childScope = new Scope(transformations: transformations.copy());
+    children.add(childScope);
+    return childScope;
   }
 }

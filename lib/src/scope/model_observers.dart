@@ -23,6 +23,9 @@ class ModelObservers {
     }
     return dirty;
   }
+
+  bool get isEmpty
+    => registeredObservers.isEmpty;
 }
 
 class ModelObserverException extends DataBinderException {

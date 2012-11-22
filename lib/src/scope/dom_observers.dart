@@ -17,6 +17,9 @@ class DomObservers {
 
   listenerWithNotification(listener)
     => (e){listener(e); scope.digest();};
+
+  bool get isEmpty
+    => registeredObservers.isEmpty;
 }
 
 class DomObserver {

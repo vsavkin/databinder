@@ -21,7 +21,7 @@ class BoolTransformation implements Transformation<bool>{
 }
 
 class Transformations {
-  final Map<String, Transformation> transformations = {};
+  Map<String, Transformation> transformations = {};
 
   Transformations(){}
 
@@ -39,5 +39,17 @@ class Transformations {
     if(! transformations.containsKey(type))
       throw new DataBinderException("No transformation defined for ${type}");
     return transformations[type];
+  }
+
+  clear()
+    => transformations.clear();
+
+  get length
+    => transformations.length;
+
+  copy(){
+    var copy = new Transformations();
+    copy.transformations = new Map.from(transformations);
+    return copy;
   }
 }
