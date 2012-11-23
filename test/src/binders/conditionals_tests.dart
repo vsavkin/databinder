@@ -4,11 +4,58 @@ testConditionals() {
 
   group("conditionals", () {
 
-    test("does nothing when expression is false", () {
-      var person = new Person(married: false);
-      var element = boundElement("<template data-if='married'>Hello</template>", person);
-      expect(element.text, equals("Hello"));
+    test("renders the template when the condition is true", () {
+      var person = new Person(name: 'Jim', married: true);
+      var element = boundElement("<div><template data-if='married'>{{name}} is married</template></div>", person);
+
+      expect(element.text, equals("Jim is married"));
     });
 
+    test("doesn't render the template when the condition is false", () {
+      var person = new Person(name: 'Jim', married: false);
+      var element = boundElement("<div><template data-if='married'>{{name}} is married</template></div>", person);
+
+      expect(element.text, equals(""));
+    });
+
+    test("updates the template when the model changes", () {
+      var person = new Person(name: 'Jim', married: false);
+
+      var binder = bind("<div><template data-if='married'>{{name}} is married</template></div>", person);
+      person.married = true;
+      binder.digest();
+
+      expect(binder.targetElement.text, equals("Jim is married"));
+    });
+
+    test("inserts a div element when the template doesn't have a root", () {
+      var person = new Person(name: 'Jim', married: true);
+
+      var element = boundElement("<div><template data-if='married'>{{name}} is married</template></div>", person);
+
+      expect(element.innerHTML, equals("<div>Jim is married</div>"));
+    });
+
+    test("doesn't insert a div element when the template has a root", () {
+      var person = new Person(name: 'Jim', married: true);
+
+      var element = boundElement("<div><template data-if='married'><span>{{name}} is married</span></template></div>", person);
+
+      expect(element.innerHTML, equals("<span>Jim is married</span>"));
+    });
+
+    test("works when reinserting the same element multiple times", () {
+      var person = new Person(name: 'Jim', married: true);
+
+      var binder = bind("<div><template data-if='married'>{{name}} is married</template></div>", person);
+      person.married = false;
+      binder.digest();
+
+      person.name = "Sam";
+      person.married = true;
+      binder.digest();
+
+      expect(binder.targetElement.text, equals("Sam is married"));
+    });
   });
 }

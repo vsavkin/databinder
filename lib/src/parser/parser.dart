@@ -3,7 +3,7 @@ part of databinder_impl;
 class Parser {
   final config = new BinderConfiguration();
 
-  ElementNode parse(h.Element element) {
+  parse(h.Element element) {
     var res = parseElement(element);
     return res != null ? res : new ElementNode.empty(element);
   }
