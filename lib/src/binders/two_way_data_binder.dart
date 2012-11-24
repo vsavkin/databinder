@@ -1,7 +1,8 @@
 part of databinder_impl;
 
 class TwoWayDataBinder extends BinderBase{
-  TwoWayDataBinder(sourceObject, scope) : super(sourceObject, scope);
+
+  TwoWayDataBinder(sourceObject, scope, transformations) : super(sourceObject, scope, transformations);
 
   visitDataBinding(DataBindingNode d){
     var propHandle = createPropertyHandle(d);
@@ -13,13 +14,13 @@ class TwoWayDataBinder extends BinderBase{
     => reflector.createPropertyHandle(sourceObject, node.pathExpression);
 
   setupModelToViewListener(node, propHandle){
-    var t = scope.transformation(node.type);
+    var t = transformations.find(node.type);
     var updateViewCallback = (ObserverEvent event) => node.value = t.modelToView(event.newValue);
     scope.registerModelObserver(propHandle.getter, updateViewCallback);
   }
 
   setupViewToModelListener(node, propHandle){
-    var t = scope.transformation(node.type);
+    var t = transformations.find(node.type);
     var updateModelCallback = (_) => propHandle.setter(t.viewToModel(node.value));
 
     if(node.isCheckbox || node.isRadio){

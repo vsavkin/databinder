@@ -1,7 +1,7 @@
 part of databinder_impl;
 
 class OneWayDataBinder extends BinderBase{
-  OneWayDataBinder(sourceObject, scope) : super(sourceObject, scope);
+  OneWayDataBinder(sourceObject, scope, transformations) : super(sourceObject, scope, transformations);
 
   visitText(TextNode t)
     => setupBinding(t);

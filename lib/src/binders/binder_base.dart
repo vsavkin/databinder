@@ -2,11 +2,12 @@ part of databinder_impl;
 
 abstract class BinderBase {
   Reflector reflector = new Reflector();
+  Transformations transformations;
   Scope scope;
 
   var sourceObject;
 
-  BinderBase(this.sourceObject, this.scope);
+  BinderBase(this.sourceObject, this.scope, this.transformations);
 
   bind(node)
     => node.visit(this);

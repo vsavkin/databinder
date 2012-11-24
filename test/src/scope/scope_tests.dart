@@ -46,21 +46,10 @@ testScope() {
         scope = new Scope();
       });
 
-      test("has all the transformations of the parent", () {
-        var child = scope.createChild();
-        expect(child.transformations.length, equals(scope.transformations.length));
-      });
-
       test("has no observers", () {
         var child = scope.createChild();
         expect(child.domObservers.isEmpty, isTrue);
         expect(child.modelObservers.isEmpty, isTrue);
-      });
-
-      test("changing transformations of a child shound't affect the parent", () {
-        var child = scope.createChild();
-        child.transformations.clear();
-        expect(scope.transformations.length, isNot(equals(0)));
       });
     });
   });
