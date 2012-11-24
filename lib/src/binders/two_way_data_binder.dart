@@ -2,7 +2,7 @@ part of databinder_impl;
 
 class TwoWayDataBinder extends BinderBase{
 
-  TwoWayDataBinder(sourceObject, scope, transformations) : super(sourceObject, scope, transformations);
+  TwoWayDataBinder(scope, transformations) : super(scope, transformations);
 
   visitDataBinding(DataBindingNode d){
     var propHandle = createPropertyHandle(d);
@@ -11,7 +11,7 @@ class TwoWayDataBinder extends BinderBase{
   }
 
   createPropertyHandle(node)
-    => reflector.createPropertyHandle(sourceObject, node.pathExpression);
+    => reflector.createPropertyHandle(scope.boundObjects, node.pathExpression);
 
   setupModelToViewListener(node, propHandle){
     var t = transformations.find(node.type);

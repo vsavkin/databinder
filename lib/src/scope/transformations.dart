@@ -40,16 +40,4 @@ class Transformations {
       throw new DataBinderException("No transformation defined for ${type}");
     return transformations[type];
   }
-
-  clear()
-    => transformations.clear();
-
-  get length
-    => transformations.length;
-
-  copy(){
-    var copy = new Transformations();
-    copy.transformations = new Map.from(transformations);
-    return copy;
-  }
 }

@@ -42,14 +42,28 @@ testScope() {
     });
 
     group("createChild", () {
+      BoundObjects bound;
+
       setUp(() {
-        scope = new Scope();
+        bound = new BoundObjects.root("some bound");
+        scope = new Scope(bound);
+      });
+
+      test("has all the boundObjects of the parent", () {
+        var child = scope.createChild();
+        expect(child.boundObjects.length, equals(scope.boundObjects.length));
       });
 
       test("has no observers", () {
         var child = scope.createChild();
         expect(child.domObservers.isEmpty, isTrue);
         expect(child.modelObservers.isEmpty, isTrue);
+      });
+
+      test("changing bounds objects of a child shound't affect the parent", () {
+        var child = scope.createChild();
+        child.boundObjects.register("some key", "some object");
+        expect(scope.boundObjects.length, equals(1));
       });
     });
   });

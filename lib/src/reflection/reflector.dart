@@ -1,14 +1,16 @@
 part of databinder_impl;
 
 class Reflector {
-  PropertyHandle createPropertyHandle(object, String pathExpression) {
+  PropertyHandle createPropertyHandle(BoundObjects objects, String pathExpression) {
+    var object = objects.match(pathExpression);
     var exp = new PathExpression(pathExpression);
     var getter = getter(object, exp);
     var setter = setter(object, exp);
     return new PropertyHandle(getter, setter);
   }
 
-  createCallback(object, String pathExpression) {
+  createCallback(BoundObjects objects, String pathExpression) {
+    var object = objects.match(pathExpression);
     var exp = new PathExpression(pathExpression);
     return methodCall(object, exp);
   }

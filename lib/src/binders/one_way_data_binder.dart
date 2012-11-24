@@ -1,7 +1,7 @@
 part of databinder_impl;
 
 class OneWayDataBinder extends BinderBase{
-  OneWayDataBinder(sourceObject, scope, transformations) : super(sourceObject, scope, transformations);
+  OneWayDataBinder(scope, transformations) : super(scope, transformations);
 
   visitText(TextNode t)
     => setupBinding(t);
@@ -18,7 +18,7 @@ class OneWayDataBinder extends BinderBase{
 
   buildPropertyHandles(boundNames)
     => boundNames.reduce({}, (memo, curr){
-      memo[curr] = reflector.createPropertyHandle(sourceObject, curr);
+      memo[curr] = reflector.createPropertyHandle(scope.boundObjects, curr);
       return memo;
     });
 

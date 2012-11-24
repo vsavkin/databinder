@@ -1,10 +1,10 @@
 part of databinder_impl;
 
 class ConditionalsBinder extends BinderBase {
-  ConditionalsBinder(sourceObject, scope, transformations) : super(sourceObject, scope, transformations);
+  ConditionalsBinder(scope, transformations) : super(scope, transformations);
 
   visitTemplate(TemplateNode t) {
-    var handle = reflector.createPropertyHandle(sourceObject, t.ifExpression);
+    var handle = reflector.createPropertyHandle(scope.boundObjects, t.ifExpression);
     var template = new TemplateElement(t.element, t.element);
     var conditionalObserver = new ConditionalCallback(template, this);
 
@@ -34,7 +34,7 @@ class ConditionalCallback {
   createTemplateAndSetupDataBinder() {
     var element = template.replaceWithTemplate();
     var childScope = parentBinder.scope.createChild();
-    dataBinder = new DataBinder(element, parentBinder.sourceObject, childScope, parentBinder.transformations)..bind();
+    dataBinder = new DataBinder(element, childScope, parentBinder.transformations)..bind();
   }
 
   unbindAndRemoveTemplate() {

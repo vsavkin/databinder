@@ -5,9 +5,7 @@ abstract class BinderBase {
   Transformations transformations;
   Scope scope;
 
-  var sourceObject;
-
-  BinderBase(this.sourceObject, this.scope, this.transformations);
+  BinderBase(this.scope, this.transformations);
 
   bind(node)
     => node.visit(this);

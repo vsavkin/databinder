@@ -32,8 +32,8 @@ main(){
 
   bind(e){
     if(! binders.isEmpty) return;
-    var scope = new Scope();
-    binders = elementsToBindTo.map((_) => new DataBinder(_, person, scope, new Transformations.standard()));
+    var scope = new Scope.root(person);
+    binders = elementsToBindTo.map((_) => new DataBinder(_, scope, new Transformations.standard()));
     binders.forEach((_) => _.bind());
   }
 
