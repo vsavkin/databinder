@@ -1,6 +1,13 @@
 part of databinder_test;
 
-class MockBoundObjects extends Mock implements BoundObjects {
+class FakeBoundObjects implements BoundObjects {
+  var obj;
+
+  FakeBoundObjects(this.obj);
+
+  match(selector){
+    return new BoundObjectMatch(obj, selector);
+  }
 }
 
 
@@ -9,14 +16,14 @@ testReflector() {
     group("createProperyHandle", (){
       Reflector reflector;
       Person person;
-      MockBoundObjects boundObjects;
+      FakeBoundObjects boundObjects;
 
       setUp((){
         reflector = new Reflector();
         person = new Person(name: "value");
         person.address = new Address("street");
-        boundObjects = new MockBoundObjects();
-        boundObjects.when(callsTo('match')).thenReturn(person);
+
+        boundObjects = new FakeBoundObjects(person);
       });
 
       test("creates a handle with a getter", () {
@@ -39,13 +46,12 @@ testReflector() {
     group("createCallback", (){
       Reflector reflector;
       Person person;
-      MockBoundObjects boundObjects;
+      FakeBoundObjects boundObjects;
 
       setUp((){
         reflector = new Reflector();
         person = new Person(age: 10);
-        boundObjects = new MockBoundObjects();
-        boundObjects.when(callsTo('match')).thenReturn(person);
+        boundObjects = new FakeBoundObjects(person);
       });
 
       test("creates a callback", () {

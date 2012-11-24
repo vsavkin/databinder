@@ -12,8 +12,19 @@ class BoundObjects {
   register(String name, Object obj)
     => objects[name] = obj;
 
-  match(String selector)
-    => objects[""];
+  BoundObjectMatch match(String selector){
+    var index = selector.indexOf(".");
+    if(index == -1) return new BoundObjectMatch(objects[""], selector);
+
+    var objectName = selector.substring(0, index);
+
+    if(objects.containsKey(objectName)){
+      var methodSelector = selector.substring(index + 1);
+      return new BoundObjectMatch(objects[objectName], methodSelector);
+    } else {
+      return new BoundObjectMatch(objects[""], selector);
+    }
+  }
 
   get length
     => objects.length;
@@ -22,4 +33,11 @@ class BoundObjects {
     var copy = new Map.from(objects);
     return new BoundObjects.fromMap(copy);
   }
+}
+
+class BoundObjectMatch {
+  String methodSelector;
+  Object object;
+
+  BoundObjectMatch(this.object, this.methodSelector);
 }

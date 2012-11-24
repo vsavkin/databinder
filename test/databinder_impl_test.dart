@@ -12,6 +12,7 @@ part 'src/utils.dart';
 part 'src/scope/model_observers_tests.dart';
 part 'src/scope/scope_tests.dart';
 part 'src/scope/transformations_tests.dart';
+part 'src/scope/bound_objects_spec.dart';
 
 part 'src/parser/nodes_tests.dart';
 
@@ -27,6 +28,7 @@ main(){
 
   testObservers();
   testScope();
+  testBoundObjects();
   testNodes();
   testTransformations();
   testReflector();
