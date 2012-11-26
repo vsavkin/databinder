@@ -11,6 +11,11 @@ class ModelObservers {
     registeredObservers.add(observer);
   }
 
+  registerListObserver(ObservableExpression exp, ObserverCallback callback){
+    var observer = new ListObserver(exp, callback)..dirtyCheck();
+    registeredObservers.add(observer);
+  }
+
   removeAll()
     => registeredObservers = [];
 
@@ -54,5 +59,33 @@ class ModelObserver {
       return true;
     }
     return false;
+  }
+}
+
+class ListObserver {
+  var exp, callback, lastValue;
+
+  ListObserver(this.exp, this.callback);
+
+  dirtyCheck(){
+    var newValue = exp();
+    if (!equal(lastValue, newValue)) {
+      callback(new ObserverEvent(lastValue, newValue));
+      lastValue = new List.from(newValue);
+      return true;
+    }
+    return false;
+  }
+
+  equal(List a, List b){
+    var aLength = a == null ? 0 : a.length;
+    var bLength = b == null ? 0 : b.length;
+
+    if(aLength != bLength) return false;
+
+    for (int i = 0 ; i < a.length; i++) {
+      if (a[i] != b[i]) return false;
+    }
+    return true;
   }
 }

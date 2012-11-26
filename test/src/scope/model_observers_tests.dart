@@ -69,6 +69,62 @@ testObservers() {
         expect(eventCapturer.isCalled, isFalse);
       });
     });
+
+    group("list values", (){
+      ModelObservers observers;
+      EventCapturer eventCapturer;
+      List observable;
+
+      setUp((){
+        observers = new ModelObservers(new Scope());
+        eventCapturer = new EventCapturer();
+        observable = [1,2];
+      });
+
+      test("registers list observers", (){
+        observers.registerListObserver(()=> observable, eventCapturer.callback);
+        expect(observers.registeredObservers.length, equals(1));
+      });
+
+      test("calls the observer on register", (){
+        observers.registerListObserver(()=> observable, eventCapturer.callback);
+        expect(eventCapturer.isCalled, isTrue);
+      });
+
+      test("calls the callback when the length of the list changes", (){
+        observers.registerListObserver(()=> observable, eventCapturer.callback);
+
+        eventCapturer.clear();
+
+        observable.add(1);
+
+        observers.dirtyCheck();
+
+        expect(eventCapturer.isCalled, isTrue);
+      });
+
+      test("calls the callback when an element of the list changes", (){
+        observers.registerListObserver(()=> observable, eventCapturer.callback);
+
+        eventCapturer.clear();
+
+        observable[0] = 100;
+
+        observers.dirtyCheck();
+
+        expect(eventCapturer.isCalled, isTrue);
+      });
+
+      test("doesn't call the callback when the value doesn't change", (){
+        observers.registerListObserver(()=> observable, eventCapturer.callback);
+
+        eventCapturer.clear();
+
+        observers.dirtyCheck();
+
+        expect(eventCapturer.isCalled, isFalse);
+      });
+    });
   });
 }
 
