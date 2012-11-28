@@ -7,6 +7,9 @@ class Address {
 
   uppercase(e)
     => street = street.toUpperCase();
+
+  operator ==(other)
+    => street == other.street;
 }
 
 class Person {
@@ -23,6 +26,11 @@ class Person {
   methodWithoutArguments(){
     throw new Exception("Cannot be called through callbacks");
   }
+}
+
+class Addresses {
+  List<Address> collection;
+  Addresses(this.collection);
 }
 
 DataBinder bind(String text, object){

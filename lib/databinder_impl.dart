@@ -18,6 +18,7 @@ part 'src/scope/bound_objects.dart';
 part 'src/scope/transformations.dart';
 part 'src/scope/scope.dart';
 
+part 'src/binders/element_generator.dart';
 part 'src/binders/binder_base.dart';
 part 'src/binders/one_way_data_binder.dart';
 part 'src/binders/two_way_data_binder.dart';

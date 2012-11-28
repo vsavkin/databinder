@@ -14,13 +14,13 @@ class IterationBinder extends BinderBase {
 }
 
 class IterationElement {
-  ElementPlaceholder placeHolder;
+  ElementGenerator placeHolder;
   BinderBase parentBinder;
   String name;
   List dataBinders = [];
 
   IterationElement(this.parentBinder, this.name, template) {
-    placeHolder = new ElementPlaceholder(template, template);
+    placeHolder = new ElementGenerator(template, template);
   }
 
   createCallback() {

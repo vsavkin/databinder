@@ -83,7 +83,7 @@ class ListObserver {
 
     if(aLength != bLength) return false;
 
-    for (int i = 0 ; i < a.length; i++) {
+    for (int i = 0 ; i < aLength; i++) {
       if (a[i] != b[i]) return false;
     }
     return true;

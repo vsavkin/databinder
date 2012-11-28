@@ -22,6 +22,7 @@ part 'src/binders/one_way_data_binding_tests.dart';
 part 'src/binders/two_way_data_binding_tests.dart';
 part 'src/binders/action_binders_tests.dart';
 part 'src/binders/conditionals_tests.dart';
+part 'src/binders/iteration_tests.dart';
 
 main(){
   useHtmlEnhancedConfiguration();
@@ -36,4 +37,5 @@ main(){
   testTwoWayDataBinding();
   testActionBinders();
   testConditionals();
+  testIteration();
 }
