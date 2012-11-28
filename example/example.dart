@@ -15,6 +15,13 @@ class Person {
   toLowerCase(e){
     name = name.toLowerCase();
   }
+
+  get children {
+    return [new Person("Sam", "English", false), new Person("Liz", "English", false)];
+  }
+
+  operator == (other)
+    => name == other.name;
 }
 
 main(){

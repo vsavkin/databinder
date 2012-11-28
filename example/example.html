@@ -47,8 +47,20 @@
     </div>
 
     <template data-if="married">
-      {{name}} is married
+      <div class="control-group">
+        <span class="control-label">Show if married:</span>
+
+        <div class="controls">{{name}} is married</div>
+      </div>
     </template>
+
+    <div class="control-group">
+      <span class="control-label">Children:</span>
+
+      <template data-iterate="child in children">
+        <span>{{child.name}}</span>
+      </template>
+    </div>
   </fieldset>
 
 
