@@ -14,31 +14,35 @@ class IterationBinder extends BinderBase {
 }
 
 class IterationElement {
-  ElementGenerator placeHolder;
+  ElementGenerator elementGenerator;
   BinderBase parentBinder;
-  String name;
+  String variableName;
   List dataBinders = [];
 
-  IterationElement(this.parentBinder, this.name, template) {
-    placeHolder = new ElementGenerator(template, template);
+  IterationElement(this.parentBinder, this.variableName, template) {
+    elementGenerator = new ElementGenerator(template, template);
   }
 
   createCallback() {
     return (ObserverEvent e) {
-      dataBinders.forEach((binder) => binder.unbind());
+      unbindAll();
 
-      var elements = placeHolder.generateElements(e.newValue.length);
-
-      //unbind all elements properly
-      for(var i = 0; i < e.newValue.length; ++i){
-        var childScope = parentBinder.scope.createChild();
-        childScope.bindObject(name, e.newValue[i]);
-
-        var dataBinder = new DataBinder(elements[i], childScope, parentBinder.transformations);
-        dataBinder.bind();
-
-        dataBinders.add(dataBinder);
-      }
+      var elements = elementGenerator.generateElements(e.newValue.length);
+      var pairs = zip(e.newValue, elements);
+      dataBinders = pairs.map((p) => createDataBinder(p[0], p[1]));
     };
   }
+
+  createDataBinder(object, element){
+    var childScope = parentBinder.scope.createChild();
+    childScope.bindObject(variableName, object);
+
+    var binder = new DataBinder(element, childScope, parentBinder.transformations);
+    binder.bind();
+    return binder;
+  }
+
+  unbindAll()
+    => dataBinders.forEach((binder) => binder.unbind());
+
 }

@@ -3,6 +3,8 @@ library databinder_impl;
 import 'dart:html' as h;
 import 'dart:mirrors';
 
+part 'src/utils.dart';
+
 part 'src/data_binder.dart';
 part 'src/data_binder_exception.dart';
 part 'src/binder_configuration.dart';
