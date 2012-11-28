@@ -4,21 +4,22 @@ class ConditionalsBinder extends BinderBase {
   ConditionalsBinder(scope, transformations) : super(scope, transformations);
 
   visitTemplate(TemplateNode t) {
-    var handle = reflector.createPropertyHandle(scope.boundObjects, t.ifExpression);
-    var template = new TemplateElement(t.element, t.element);
-    var conditionalObserver = new ConditionalCallback(template, this);
+    if(! t.hasIfExpression) return;
 
-    scope.registerModelObserver(handle.getter, conditionalObserver.createCallback());
+    var handle = reflector.createPropertyHandle(scope.boundObjects, t.ifExpression);
+    var conditionalElement = new ConditionalElement(this, t.element);
+
+    scope.registerModelObserver(handle.getter, conditionalElement.createCallback());
   }
 }
 
-class ConditionalCallback {
-  TemplateElement template;
+class ConditionalElement {
+  ElementPlaceholder placeHolder;
   DataBinder dataBinder;
   BinderBase parentBinder;
 
-  ConditionalCallback(this.template, this.parentBinder) {
-    template.replaceWithMarker();
+  ConditionalElement(this.parentBinder, template) {
+    placeHolder = new ElementPlaceholder(template, template);
   }
 
   createCallback() {
@@ -32,7 +33,7 @@ class ConditionalCallback {
   }
 
   createTemplateAndSetupDataBinder() {
-    var element = template.replaceWithTemplate();
+    var element = placeHolder.generateElements(1)[0];
     var childScope = parentBinder.scope.createChild();
     dataBinder = new DataBinder(element, childScope, parentBinder.transformations)..bind();
   }
@@ -40,33 +41,53 @@ class ConditionalCallback {
   unbindAndRemoveTemplate() {
     if (dataBinder != null){
       dataBinder.unbind();
-      template.replaceWithMarker();
     }
+    placeHolder.generateElements(0);
   }
 }
 
-class TemplateElement {
+
+class ElementPlaceholder {
   h.Element template;
   h.Element marker;
-  h.Element current;
+  List<h.Element> current = [];
 
-  TemplateElement(h.Element templateEl, h.Element currEl) {
+  ElementPlaceholder(h.Element templateEl, h.Element place){
     template = createTemplateElement(templateEl);
     marker = createMarkerElement();
-    current = currEl;
+
+    place.replaceWith(marker);
+    current = [marker];
   }
 
-  replaceWithMarker() {
-    current.replaceWith(marker);
-    current = marker;
-    return current;
+  generateElements(int number) {
+    var parent = current[0].parent;
+
+    var elements = [];
+    for(var i = 0; i < number; ++i){
+      elements.add(template.clone(true));
+    }
+
+    if(number == 0){
+      replaceElements(parent, current, [marker]);
+      current = [marker];
+      return [];
+
+    } else {
+      replaceElements(parent, current, elements);
+      current = elements;
+      return current;
+    }
   }
 
-  replaceWithTemplate() {
-    var instanceOfTemplate = template.clone(true);
-    current.replaceWith(instanceOfTemplate);
-    current = instanceOfTemplate;
-    return current;
+  replaceElements(h.Element parent, List oldChildren, List newChildren){
+    var index = parent.nodes.indexOf(oldChildren[0]);
+    var lastIndex = parent.nodes.indexOf(oldChildren.last);
+
+    var newNodes = parent.nodes.getRange(0, index);
+    newNodes.addAll(newChildren);
+    newNodes.addAll(parent.nodes.getRange(lastIndex + 1, parent.nodes.length - lastIndex - 1));
+    parent.nodes = newNodes;
   }
 
   createTemplateElement(e) {

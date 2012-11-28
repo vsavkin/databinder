@@ -16,8 +16,14 @@ class Scope {
   registerModelObserver(ObservableExpression exp, ObserverCallback callback)
     => modelObservers.register(exp, callback);
 
+  registerListObserver(ObservableExpression exp, ObserverCallback callback)
+    => modelObservers.registerListObserver(exp, callback);
+
   registerDomObserver(h.EventListenerList list, h.EventListener listener)
     => domObservers.register(list, listener);
+
+  bindObject(String name, obj)
+    => boundObjects.register(name, obj);
 
   destroy(){
     modelObservers.removeAll();
@@ -37,7 +43,7 @@ class Scope {
     return children.reduce(localObserversDirty, (memo, curr) => memo || curr.dirtyCheck());
   }
 
-  createChild(){
+  Scope createChild(){
     var childScope = new Scope(boundObjects.copy());
     children.add(childScope);
     return childScope;

@@ -13,6 +13,7 @@ class DataBinder {
     _binders.add(new TwoWayDataBinder(scope, transformations));
     _binders.add(new DataActionBinder(scope, transformations));
     _binders.add(new ConditionalsBinder(scope, transformations));
+    _binders.add(new IterationBinder(scope, transformations));
   }
 
   DataBinder.root(targetElement, sourceObject):

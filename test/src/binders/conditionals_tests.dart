@@ -28,22 +28,6 @@ testConditionals() {
       expect(binder.targetElement.text, equals("Jim is married"));
     });
 
-    test("inserts a div element when the template doesn't have a root", () {
-      var person = new Person(name: 'Jim', married: true);
-
-      var element = boundElement("<div><template data-if='married'>{{name}} is married</template></div>", person);
-
-      expect(element.innerHTML, equals("<div>Jim is married</div>"));
-    });
-
-    test("doesn't insert a div element when the template has a root", () {
-      var person = new Person(name: 'Jim', married: true);
-
-      var element = boundElement("<div><template data-if='married'><span>{{name}} is married</span></template></div>", person);
-
-      expect(element.innerHTML, equals("<span>Jim is married</span>"));
-    });
-
     test("works when reinserting the same element multiple times", () {
       var person = new Person(name: 'Jim', married: true);
 

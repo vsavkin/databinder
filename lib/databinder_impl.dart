@@ -23,4 +23,5 @@ part 'src/binders/one_way_data_binder.dart';
 part 'src/binders/two_way_data_binder.dart';
 part 'src/binders/data_action_binder.dart';
 part 'src/binders/conditionals_binder.dart';
+part 'src/binders/iteration_binder.dart';
 
