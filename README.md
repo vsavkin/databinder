@@ -14,8 +14,6 @@ I strongly believe that runtime binding is more advantageous than compilation.
 * Easier to understand
 * Templates can be built dynamically or retrieved from a database
 
-#### Follow the MDV syntax as close as possible
-
 #### Provide extension points for frameworks
 
 To be a good foundation for building MV* frameworks Databinder should support custom binders.
@@ -33,6 +31,7 @@ To be a good foundation for building MV* frameworks Databinder should support cu
 
 	class Person {
 	  String firstName, lastName;
+	  bool married;
 
 	  Person(this.firstName, this.lastName);
 
@@ -45,6 +44,10 @@ To be a good foundation for building MV* frameworks Databinder should support cu
 	    firstName = firstName.toLowerCase();
 	    lastName = lastName.toLowerCase();
 	  }
+
+	  get children {
+		return [new Person("Sam", "Smith"), new Person("Liz", "Smith")]
+	  }
 	}
 
 
@@ -52,7 +55,7 @@ To be a good foundation for building MV* frameworks Databinder should support cu
 
 * bind - registers model and DOM watchers
 * unbind - unregisters all the registred watchers
-* notify - triggers all the registered model watchers
+* digest - triggers all the registered model watchers
 
 ### One-way data binding
 
@@ -65,7 +68,7 @@ To bind:
 
 	var person = new Person("Jim", "Smith");
 	var element = query("#one-way");
-	var binder = new DataBinder(element, person);
+	var binder = new DataBinder.root(element, person);
 	binder.bind();
 
 To unbind:
@@ -83,7 +86,7 @@ To bind:
 
 	var person = new Person("Jim", "Smith");
 	var element = query("#two-way-form");
-	var binder = new DataBinder(element, person);
+	var binder = new DataBinder.root(element, person);
 	binder.bind();
 
 To unbind:
@@ -101,26 +104,65 @@ To bind:
 	
 	var person = new Person("Jim", "Smith");
 	var element = query("#actions");
-	var binder = new DataBinder(element, person);
+	var binder = new DataBinder.root(element, person);
 	binder.bind();
 
 To unbind:
 	
 	binder.unbind();
 
+### Conditionals
+
+    <template data-if="married">
+      {{firstName}} {{lastName}} is married
+    </template>
+
+To bind:
+	
+	var person = new Person("Jim", "Smith");
+	person.married = true;
+
+	var element = query("#actions");
+	var binder = new DataBinder.root(element, person);
+	binder.bind();
+
+You'll see:
+    
+    Jim Smith is married
+
+### Repeaters
+
+    <template data-iterate="child in children">
+      {{child.firstName}} is a child of {{firstName}}
+    </template>
+
+You'll see:
+    
+    Sam is a child of Jim
+    Liz is a child of Jim
+
+
+### More control over binding
+
+	var binder = new DataBinder.root(element, person);
+
+is the equivalent of:
+
+	var boundObjects = new BoundObjects();
+	boundObjects.register("", person);
+
+	var scope = new Scope(boundObjects);
+
+	var transformations = new Transformations.standard();
+
+	var binder = new DataBinder(element, scope, transformations);
+
+When creating a data binder you can configure the objects you want to bind, the scope, and the list of available transformations. All these objects are extendable.
+
 ## Example app
 
 Check out the example application that comes with the package to see the library in action.
 
 ## Current status
-
-At this point the library is more than just a spike, but not quite ready for production. 
-
-To be improved:
-
-* There are only integration tests at this point.
-* Two-way data binding works only with the input element. Other elements need to be supported as well.
-* At this point you can only bind to the source object's getter.
-* The implementation is naive when it comes to listening for DOM events. 
 
 Though it's very early days and so much stuff needs to be done, the library is already useful. So feel free to give it a try.
