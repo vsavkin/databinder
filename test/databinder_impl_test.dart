@@ -23,6 +23,7 @@ part 'src/binders/two_way_data_binding_tests.dart';
 part 'src/binders/action_binders_tests.dart';
 part 'src/binders/conditionals_tests.dart';
 part 'src/binders/iteration_tests.dart';
+part 'src/binders/element_generator_test.dart';
 
 main(){
   useHtmlEnhancedConfiguration();
@@ -38,4 +39,5 @@ main(){
   testActionBinders();
   testConditionals();
   testIteration();
+  testElementGenerator();
 }

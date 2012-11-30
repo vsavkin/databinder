@@ -47,8 +47,10 @@ class ElementGenerator {
   }
 
   createTemplateElement(e) {
-    if (hasRoot(e)) {
-      return e.nodes[0].clone(true);
+    var nonEmptyNodes = e.nodes.filter((n) => !emptyTextNode(n));
+
+    if (nonEmptyNodes.length == 1 && nonEmptyNodes[0] is h.Element) {
+      return nonEmptyNodes[0].clone(true);
     } else {
       var elTemplate = new h.Element.html("<div>");
       elTemplate.nodes = e.nodes;
@@ -56,7 +58,7 @@ class ElementGenerator {
     }
   }
 
-  hasRoot(e) => e.nodes.length == 1 && e.nodes[0] is h.Element;
+  emptyTextNode(n) => n is h.Text && n.text.trim() == "";
 
   createMarkerElement() => new h.Element.html("<span style='display:none'></span>");
 }
