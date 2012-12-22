@@ -12,7 +12,7 @@ testElementGenerator() {
 
     test("initializes with a marker", (){
       var g = new ElementGenerator(template, place);
-      expect(g.current[0].outerHTML, equals('<span style="display:none"></span>'));
+      expect(g.current[0].outerHtml, equals('<span style="display:none"></span>'));
     });
 
     test("wraps elements into divs when no root element", (){
@@ -20,7 +20,7 @@ testElementGenerator() {
 
       g.generateElements(1);
 
-      expect(g.current[0].outerHTML, equals('<div>t</div>'));
+      expect(g.current[0].outerHtml, equals('<div>t</div>'));
     });
 
     test("does not wrap elements into divs when there is a root element", (){
@@ -30,7 +30,7 @@ testElementGenerator() {
 
       g.generateElements(1);
 
-      expect(g.current[0].outerHTML, equals('<span>t</span>'));
+      expect(g.current[0].outerHtml, equals('<span>t</span>'));
     });
 
     test("generates multiple elemnets", (){
@@ -48,7 +48,7 @@ testElementGenerator() {
       g.clear();
 
       expect(g.current.length, equals(1));
-      expect(g.current[0].outerHTML, equals('<span style="display:none"></span>'));
+      expect(g.current[0].outerHtml, equals('<span style="display:none"></span>'));
     });
   });
 }
