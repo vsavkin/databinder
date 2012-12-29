@@ -24,8 +24,7 @@ To be a good foundation for building MV* frameworks Databinder should support cu
 
 	name:  sampleapp
 	dependencies:
-	  databinder:
-	    git: git://github.com/vsavkin/databinder.git
+	  databinder: any
 
 ### Define a view model
 
