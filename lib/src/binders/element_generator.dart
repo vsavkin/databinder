@@ -47,7 +47,7 @@ class ElementGenerator {
   }
 
   createTemplateElement(e) {
-    var nonEmptyNodes = e.nodes.filter((n) => !emptyTextNode(n));
+    var nonEmptyNodes = e.nodes.where((n) => !emptyTextNode(n));
 
     if (nonEmptyNodes.length == 1 && nonEmptyNodes[0] is h.Element) {
       return nonEmptyNodes[0].clone(true);
