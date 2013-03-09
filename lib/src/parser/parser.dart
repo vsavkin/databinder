@@ -9,7 +9,7 @@ class Parser {
   }
 
   parseElement(element)
-    => (element.tagName == "TEMPLATE") ?
+    => (element.attributes.containsKey("data-template")) ?
       parseTemplate(element) :
       parseSimpleElement(element);
 
@@ -17,7 +17,7 @@ class Parser {
     => new TemplateNode(element);
 
   parseSimpleElement(element) {
-    var nodes = parseChildrenNodes(element);
+    var nodes = parseChildrenNodes(element).toList();
     nodes.addAll(parseAttributes(element));
     return (!nodes.isEmpty) ? new ElementNode(element, nodes) : null;
   }
@@ -26,7 +26,7 @@ class Parser {
     => element
       .nodes
       .map((_) => parseNode(_))
-      .filter((_) => _ != null);
+      .where((_) => _ != null);
 
   parseNode(node)
     => (node is h.Text) ?
@@ -46,7 +46,7 @@ class Parser {
     element.attributes.forEach((k,v){
       res.add(parseAttribute(element, k, v));
     });
-    return res.filter((_) => _ != null);
+    return res.where((_) => _ != null);
   }
 
   parseAttribute(element, attrName, attrValue){

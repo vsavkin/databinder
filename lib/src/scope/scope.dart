@@ -19,8 +19,8 @@ class Scope {
   registerListObserver(ObservableExpression exp, ObserverCallback callback)
     => modelObservers.registerListObserver(exp, callback);
 
-  registerDomObserver(h.EventListenerList list, h.EventListener listener)
-    => domObservers.register(list, listener);
+  registerDomObserver(Stream stream, listener)
+    => domObservers.register(stream, listener);
 
   bindObject(String name, obj)
     => boundObjects.register(name, obj);

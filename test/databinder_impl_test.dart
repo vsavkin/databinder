@@ -37,7 +37,7 @@ main(){
   testOneWayDataBinding();
   testTwoWayDataBinding();
   testActionBinders();
+  testElementGenerator();
   testConditionals();
   testIteration();
-  testElementGenerator();
 }

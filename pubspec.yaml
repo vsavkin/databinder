@@ -1,7 +1,8 @@
 name: databinder
 description: Data binding via object mirrors.
-version: 0.1.5
+version: 0.2.0
 author: Victor Savkin <vic.savkin@gmail.com>
 homepage: http://github.com/vsavkin/databinder
 dependencies:
-  unittest: 0.2.8+2
+  unittest: any
+  browser: any

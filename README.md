@@ -112,9 +112,9 @@ To unbind:
 
 ### Conditionals
 
-    <template data-if="married">
+    <div data-template="true" data-if="married">
       {{firstName}} {{lastName}} is married
-    </template>
+    </div>
 
 To bind:
 	
@@ -131,9 +131,9 @@ You'll see:
 
 ### Repeaters
 
-    <template data-iterate="child in children">
+    <div data-template="true" data-iterate="child in children">
       {{child.firstName}} is a child of {{firstName}}
-    </template>
+    </div>
 
 You'll see:
     
@@ -161,7 +161,3 @@ When creating a data binder you can configure the objects you want to bind, the 
 ## Example app
 
 Check out the example application that comes with the package to see the library in action.
-
-## Current status
-
-Though it's very early days and so much stuff needs to be done, the library is already useful. So feel free to give it a try.

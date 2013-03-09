@@ -10,7 +10,7 @@
 
 <body>
 <script type="application/dart" src="example.dart"></script>
-<script src="http://dart.googlecode.com/svn/branches/bleeding_edge/dart/client/dart.js"></script>
+<script src="packages/browser/dart.js"></script>
 
 <div class="hero-unit">
   <h1>Data binding via object mirrors</h1>
@@ -46,20 +46,20 @@
       <div class="controls">{{language}}</div>
     </div>
 
-    <template data-if="married">
+    <div data-template="true" data-if="married">
       <div class="control-group">
         <span class="control-label">Show if married:</span>
 
         <div class="controls">{{name}} is married</div>
       </div>
-    </template>
+    </div>
 
     <div class="control-group">
       <span class="control-label">Children:</span>
 
-      <template data-iterate="child in children">
+      <div data-template="true" data-iterate="child in children">
         <span> {{child.name}} </span>
-      </template>
+      </div>
     </div>
   </fieldset>
 

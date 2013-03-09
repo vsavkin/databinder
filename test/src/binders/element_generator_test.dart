@@ -6,8 +6,8 @@ testElementGenerator() {
     Element place;
 
     setUp((){
-      template = new Element.html("<template>t</template>");
-      place = new Element.html("<div><div></div></div>").elements[0];
+      template = new Element.html("<div>t</div>");
+      place = new Element.html("<div><div></div></div>").children[0];
     });
 
     test("initializes with a marker", (){
@@ -24,7 +24,7 @@ testElementGenerator() {
     });
 
     test("does not wrap elements into divs when there is a root element", (){
-      template = new Element.html("<template> <span>t</span> </template>");
+      template = new Element.html("<div> <span>t</span> </div>");
 
       var g = new ElementGenerator(template, place);
 

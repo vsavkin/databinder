@@ -45,8 +45,8 @@ testTwoWayDataBinding() {
       var element = boundElement("<input data-bind='value:name'/>", person);
 
       element.value = "Sam";
-      element.on.change.dispatch(new Event("input"));
 
+      element.dispatchEvent(new Event("input"));
       expect(person.name, equals("Sam"));
     });
 
@@ -55,8 +55,7 @@ testTwoWayDataBinding() {
       var element = boundElement("<input data-bind='int:age'/>", person);
 
       element.value = "100";
-      element.on.change.dispatch(new Event("input"));
-
+      element.dispatchEvent(new Event("input"));
       expect(person.age, equals(100));
     });
 
@@ -69,8 +68,7 @@ testTwoWayDataBinding() {
       var el2 = element.query("#el2");
 
       el1.value = "Sam";
-      el1.on.change.dispatch(new Event("input"));
-
+      el1.dispatchEvent(new Event("input"));
       expect(el2.value, equals("Sam"));
     });
 
@@ -92,12 +90,12 @@ testTwoWayDataBinding() {
       binder.unbind();
 
       binder.targetElement.value = "Sam";
-      binder.targetElement.on.change.dispatch(new Event("input"));
+      binder.targetElement.dispatchEvent(new Event("input"));
 
       expect(person.name, equals("Dolly"));
     });
 
-//
+
 //exception in a callback, figure out how to test it
 //    test("non-string fields", () {
 //      var person = new Person("Dolly", 99);
@@ -108,8 +106,5 @@ testTwoWayDataBinding() {
 //
 //      expect(person.age, equals(10));
 //    });
-
-//TODO: invalid format
-
   });
 }

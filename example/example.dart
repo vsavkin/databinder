@@ -49,9 +49,9 @@ main(){
     binders = [];
   }
 
-  query("#bind-btn").on.click.add(bind);
+  query("#bind-btn").onClick.listen(bind);
 
-  query("#unbind-btn").on.click.add(unbind);
+  query("#unbind-btn").onClick.listen(unbind);
 
   bind(null);
 }

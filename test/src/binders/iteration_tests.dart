@@ -6,21 +6,20 @@ testIteration() {
 
     test("renders the template", () {
       var addresses = new Addresses([new Address("one"), new Address("two")]);
-      var element = boundElement("<div><template data-iterate='a in collection'>{{a.street}}!</template></div>", addresses);
-
+      var element = boundElement("<div><div data-template='true' data-iterate='a in collection'>{{a.street}}!</div></div>", addresses);
       expect(element.text, equals("one!two!"));
     });
 
     test("doesn't render the template when the collection is empty", () {
       var addresses = new Addresses([]);
-      var element = boundElement("<div><template data-iterate='a in collection'>{{a.street}}!</template></div>", addresses);
+      var element = boundElement("<div><div data-template='true' data-iterate='a in collection'>{{a.street}}!</div></div>", addresses);
 
       expect(element.text, equals(""));
     });
 
     test("updates the template when the model changes", () {
       var addresses = new Addresses([]);
-      var binder = bind("<div><template data-iterate='a in collection'>{{a.street}}!</template></div>", addresses);
+      var binder = bind("<div><div data-template='true' data-iterate='a in collection'>{{a.street}}!</div></div>", addresses);
 
       addresses.collection.add(new Address("one"));
       binder.digest();
@@ -30,7 +29,7 @@ testIteration() {
 
     test("works when reinserting the same element multiple times", () {
       var addresses = new Addresses([new Address("one")]);
-      var binder = bind("<div><template data-iterate='a in collection'>{{a.street}}!</template></div>", addresses);
+      var binder = bind("<div><div data-template='true' data-iterate='a in collection'>{{a.street}}!</div></div>", addresses);
 
       addresses.collection.clear();
       binder.digest();
