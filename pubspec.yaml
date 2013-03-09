@@ -4,4 +4,5 @@ version: 0.1.5
 author: Victor Savkin <vic.savkin@gmail.com>
 homepage: http://github.com/vsavkin/databinder
 dependencies:
-  unittest: 0.2.8+2
+  unittest: any
+  browser: any
