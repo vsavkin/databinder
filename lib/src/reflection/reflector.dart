@@ -17,11 +17,6 @@ class Reflector {
     return methodCall(match.object, exp);
   }
 
-  readProperty(object, String pathExpression) {
-    var exp = new PathExpression(pathExpression);
-    return read(object, exp);
-  }
-
   methodCall(object, exp) {
     return (e) {
       var receiver = extractReceiver(object, exp);
@@ -30,11 +25,6 @@ class Reflector {
       var future = mirror.invoke(exp.propertyPart, [reflect(e)]);
       get_value(exp, future);
     };
-  }
-
-  read(object, exp) {
-    var receiver = extractReceiver(object, exp);
-    return prop(exp, receiver, exp.propertyPart);
   }
 
   getter(object, exp) {

@@ -24,10 +24,10 @@ class TwoWayDataBinder extends BinderBase{
     var updateModelCallback = (_) => propHandle.setter(t.viewToModel(node.value));
 
     if(node.isCheckbox || node.isRadio){
-      scope.registerDomObserver(node.element.on.change, updateModelCallback);
+      scope.registerDomObserver(node.element.onChange, updateModelCallback);
     } else {
-      scope.registerDomObserver(node.element.on.input, updateModelCallback);
-      scope.registerDomObserver(node.element.on.keyDown, updateModelCallback);
+      scope.registerDomObserver(node.element.onInput, updateModelCallback);
+      scope.registerDomObserver(node.element.onKeyDown, updateModelCallback);
     }
   }
 }

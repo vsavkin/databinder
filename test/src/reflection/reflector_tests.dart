@@ -94,26 +94,6 @@ testReflector() {
         expect(() => callback(null), throwsA(new isInstanceOf<DataBinderException>()));
       });
     });
-
-    group("readProperty", (){
-      Reflector reflector;
-      Person person;
-
-      setUp((){
-        reflector = new Reflector();
-        person = new Person(name: "value");
-      });
-
-      test("read the specified property", () {
-        expect(reflector.readProperty(person, "name"), equals("value"));
-      });
-
-      test("supports complex path expressions", (){
-        person.address = new Address("street");
-
-        expect(reflector.readProperty(person, "address.street"), equals("street"));
-      });
-    });
   });
 }
 
