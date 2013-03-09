@@ -2,6 +2,7 @@ library databinder_impl;
 
 import 'dart:html' as h;
 import 'dart:mirrors';
+import 'dart:async';
 
 part 'src/utils.dart';
 
