@@ -1,35 +1,21 @@
 part of databinder_impl;
 
 class DomObservers {
-  List<DomObserver> registeredObservers = [];
+  List<StreamSubscription> subscriptions = [];
   Scope scope;
 
   DomObservers(this.scope);
 
-  register(h.EventListenerList list, h.EventListener listener){
-    var observer = new DomObserver(list, listenerWithNotification(listener));
-    observer.bind();
-    registeredObservers.add(observer);
+  register(Stream stream, listener){
+    subscriptions.add(stream.listen(listenerWithNotification(listener)));
   }
 
   removeAll()
-    => registeredObservers.forEach((_) => _.unbind());
+    => subscriptions.forEach((_) => _.cancel());
 
   listenerWithNotification(listener)
     => (e){listener(e); scope.digest();};
 
   bool get isEmpty
-    => registeredObservers.isEmpty;
-}
-
-class DomObserver {
-  var list, listener;
-
-  DomObserver(this.list, this.listener);
-
-  bind()
-    => list.add(listener);
-
-  unbind()
-    => list.remove(listener);
+    => subscriptions.isEmpty;
 }
