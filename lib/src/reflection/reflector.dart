@@ -24,52 +24,46 @@ class Reflector {
 
   methodCall(object, exp) {
     return (e) {
-      wrapExceptions(exp, () {
-        var receiver = extractReceiver(object, exp);
-        var mirror = reflect(receiver);
-        mirror.invoke(exp.propertyPart, [reflect(e)]).value;
-      });
+      var receiver = extractReceiver(object, exp);
+      var mirror = reflect(receiver);
+
+      var future = mirror.invoke(exp.propertyPart, [reflect(e)]);
+      get_value(exp, future);
     };
   }
 
   read(object, exp) {
-    return wrapExceptions(exp, () {
-      var receiver = extractReceiver(object, exp);
-      return prop(receiver, exp.propertyPart);
-    });
+    var receiver = extractReceiver(object, exp);
+    return prop(exp, receiver, exp.propertyPart);
   }
 
   getter(object, exp) {
     return () {
-      return wrapExceptions(exp, () {
-        var receiver = extractReceiver(object, exp);
-        return prop(receiver, exp.propertyPart);
-      });
+      var receiver = extractReceiver(object, exp);
+      return prop(exp, receiver, exp.propertyPart);
     };
   }
 
   setter(object, exp) {
     return (newValue) {
-      wrapExceptions(exp, () {
-        var receiver = extractReceiver(object, exp);
-        var mirror = reflect(receiver);
-        mirror.setField(exp.propertyPart, newValue).value;
-      });
+      var receiver = extractReceiver(object, exp);
+      var mirror = reflect(receiver);
+      get_value(exp, mirror.setField(exp.propertyPart, newValue));
     };
   }
 
   extractReceiver(object, exp)
-    => exp.receiverParts.reduce(object, (prev, receiverPart) => prop(prev, receiverPart));
+    => exp.receiverParts.reduce(object, (prev, receiverPart) => prop(exp, prev, receiverPart));
 
-  prop(object, prop)
-    => reflect(object).getField(prop).value.reflectee;
+  prop(exp, object, prop)
+    => get_value(exp, reflect(object).getField(prop)).reflectee;
 
-  wrapExceptions(exp, function) {
-    try {
-      return function();
-    } on FutureUnhandledException catch(e) {
-      throw new DataBinderException("${exp.fullExpression}  =>  ${e.source.message}", e);
+  get_value(exp, future) {
+    var v = deprecatedFutureValue(future);
+    if (v is AsyncError) {
+      throw new DataBinderException("${exp.fullExpression}  =>  ${v.error.message}", v.error);
     }
+    return v;
   }
 }
 
