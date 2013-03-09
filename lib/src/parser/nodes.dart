@@ -2,7 +2,7 @@ part of databinder_impl;
 
 class TextNode {
   final h.Text node;
-  final Iterator<String> pathExpressions;
+  final Iterable<String> pathExpressions;
 
   TextNode(this.node, this.pathExpressions);
 
@@ -19,7 +19,7 @@ class TextNode {
 class AttributeNode {
   final h.Element element;
   final String attrName;
-  final Iterator<String> pathExpressions;
+  final Iterable<String> pathExpressions;
 
   AttributeNode(this.element, this.attrName, this.pathExpressions);
 
@@ -97,7 +97,7 @@ class DataActionNode {
 
 class ElementNode {
   h.Element element;
-  final Iterator children;
+  final Iterable children;
 
   ElementNode(this.element, this.children);
   ElementNode.empty(this.element) : children = [];

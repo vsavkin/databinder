@@ -17,7 +17,7 @@ class Parser {
     => new TemplateNode(element);
 
   parseSimpleElement(element) {
-    var nodes = parseChildrenNodes(element);
+    var nodes = parseChildrenNodes(element).toList();
     nodes.addAll(parseAttributes(element));
     return (!nodes.isEmpty) ? new ElementNode(element, nodes) : null;
   }
