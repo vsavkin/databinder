@@ -46,11 +46,11 @@ class ElementGenerator {
     parent.nodes = newNodes;
   }
 
-  createTemplateElement(e) {
-    var nonEmptyNodes = e.nodes.where((n) => !emptyTextNode(n));
+  createTemplateElement(h.Element e) {
+    var nonEmptyNodes = e.children.where((n) => !emptyTextNode(n));
 
-    if (nonEmptyNodes.length == 1 && nonEmptyNodes[0] is h.Element) {
-      return nonEmptyNodes[0].clone(true);
+    if (e.children.length == 1) {
+      return nonEmptyNodes.first.clone(true);
     } else {
       var elTemplate = new h.Element.html("<div>");
       elTemplate.nodes = e.nodes;

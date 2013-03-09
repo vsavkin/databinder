@@ -9,7 +9,7 @@ class Parser {
   }
 
   parseElement(element)
-    => (element.tagName == "TEMPLATE") ?
+    => (element.attributes.containsKey("data-template")) ?
       parseTemplate(element) :
       parseSimpleElement(element);
 

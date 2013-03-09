@@ -17,7 +17,7 @@ class IterationElement {
   ElementGenerator elementGenerator;
   BinderBase parentBinder;
   String variableName;
-  List dataBinders = [];
+  Iterable dataBinders = [];
 
   IterationElement(this.parentBinder, this.variableName, template) {
     elementGenerator = new ElementGenerator(template, template);
@@ -26,23 +26,19 @@ class IterationElement {
   createCallback() {
     return (ObserverEvent e) {
       unbindAll();
-
       var elements = elementGenerator.generateElements(e.newValue.length);
       var pairs = zip(e.newValue, elements);
-      dataBinders = pairs.map((p) => createDataBinder(p[0], p[1]));
+      dataBinders = pairs.map((p) => createDataBinder(p[0], p[1])).toList();
     };
   }
 
   createDataBinder(object, element){
     var childScope = parentBinder.scope.createChild();
     childScope.bindObject(variableName, object);
-
-    var binder = new DataBinder(element, childScope, parentBinder.transformations);
-    binder.bind();
-    return binder;
+    return new DataBinder(element, childScope, parentBinder.transformations)..bind();
   }
 
   unbindAll()
-    => dataBinders.forEach((binder) => binder.unbind());
+    => dataBinders.forEach((_) => _.unbind());
 
 }
